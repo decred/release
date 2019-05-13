@@ -72,7 +72,7 @@ func gocmd(goos, arch string, args ...string) {
 	os.Setenv("GOOS", goos)
 	os.Setenv("GOARCH", arch)
 	log.Printf("> go %v", strings.Join(args, " "))
-	output, err := exec.Command("go", args...).CombinedOutput()
+	output, err := exec.Command(*gobin, args...).CombinedOutput()
 	if len(output) != 0 {
 		log.Printf("> %s", output)
 	}
