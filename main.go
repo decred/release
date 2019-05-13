@@ -43,9 +43,9 @@ var modules = []struct{ mod, ldflags string }{
 func main() {
 	flag.Parse()
 	logvers()
-	for i := range modules {
-		for j := range targets {
-			build(modules[i].mod, modules[i].ldflags, targets[j].os, targets[j].arch)
+	for i := range targets {
+		for j := range modules {
+			build(modules[j].mod, modules[j].ldflags, targets[i].os, targets[i].arch)
 		}
 	}
 }
