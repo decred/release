@@ -43,7 +43,6 @@ var modules = []struct{ mod, ldflags string }{
 func main() {
 	flag.Parse()
 	logvers()
-	os.Setenv("GOBIN", "./bin")
 	for i := range modules {
 		for j := range targets {
 			build(modules[i].mod, modules[i].ldflags, targets[j].os, targets[j].arch)
