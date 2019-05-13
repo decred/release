@@ -32,7 +32,7 @@ const dldflags = `-X github.com/decred/dcrd/internal/version.BuildMetadata=relea
 const wldflags = `-X github.com/decred/dcrwallet/version.BuildMetadata=release ` +
 	`-X github.com/decred/dcrwallet/version.PreRelease=`
 
-var modules = []struct{ mod, ldflags string }{
+var tools = []struct{ tool, ldflags string }{
 	// dcrd release-v1.4.0 is broken due to replaces in main module
 	//{"github.com/decred/dcrd", dldflags},
 	{"github.com/decred/dcrd/cmd/dcrctl", dldflags},
@@ -44,8 +44,8 @@ func main() {
 	flag.Parse()
 	logvers()
 	for i := range targets {
-		for j := range modules {
-			build(modules[j].mod, modules[j].ldflags, targets[i].os, targets[i].arch)
+		for j := range tools {
+			build(tools[j].tool, tools[j].ldflags, targets[i].os, targets[i].arch)
 		}
 	}
 }
@@ -58,15 +58,15 @@ func logvers() {
 	log.Printf("releasing with %s %s", *gobin, output)
 }
 
-func build(module, ldflags, goos, arch string) {
-	exe := path.Base(module)
+func build(tool, ldflags, goos, arch string) {
+	exe := path.Base(tool) // TODO: fix for /v2+
 	if goos == "windows" {
 		exe += ".exe"
 	}
 	out := filepath.Join("bin", goos+"-"+arch, exe)
 	log.Printf("build: %s", out)
 	// TODO: add -trimpath with Go 1.13
-	gocmd(goos, arch, "build", "-o", out, "-ldflags", ldflags, module)
+	gocmd(goos, arch, "build", "-o", out, "-ldflags", ldflags, tool)
 }
 
 func gocmd(goos, arch string, args ...string) {
