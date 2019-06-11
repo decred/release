@@ -32,6 +32,8 @@ const dldflags = `-X github.com/decred/dcrd/internal/version.BuildMetadata=relea
 const wldflags = `-X github.com/decred/dcrwallet/version.BuildMetadata=release ` +
 	`-X github.com/decred/dcrwallet/version.PreRelease=`
 
+const tags = "safe"
+
 var tools = []struct{ tool, ldflags string }{
 	// dcrd release-v1.4.0 is broken due to replaces in main module
 	//{"github.com/decred/dcrd", dldflags},
@@ -66,7 +68,7 @@ func build(tool, ldflags, goos, arch string) {
 	out := filepath.Join("bin", goos+"-"+arch, exe)
 	log.Printf("build: %s", out)
 	// TODO: add -trimpath with Go 1.13
-	gocmd(goos, arch, "build", "-o", out, "-ldflags", ldflags, tool)
+	gocmd(goos, arch, "build", "-tags", tags, "-o", out, "-ldflags", ldflags, tool)
 }
 
 func gocmd(goos, arch string, args ...string) {
