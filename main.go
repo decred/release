@@ -67,8 +67,7 @@ func build(tool, ldflags, goos, arch string) {
 	}
 	out := filepath.Join("bin", goos+"-"+arch, exe)
 	log.Printf("build: %s", out)
-	// TODO: add -trimpath with Go 1.13
-	gocmd(goos, arch, "build", "-tags", tags, "-o", out, "-ldflags", ldflags, tool)
+	gocmd(goos, arch, "build", "-trimpath", "-tags", tags, "-o", out, "-ldflags", ldflags, tool)
 }
 
 func gocmd(goos, arch string, args ...string) {
