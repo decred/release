@@ -27,9 +27,9 @@ var targets = []struct{ os, arch string }{
 	{"freebsd", "amd64"},
 }
 
-const dldflags = `-X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
+const dldflags = `-buildid= -X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
 	`-X github.com/decred/dcrd/internal/version.PreRelease=`
-const wldflags = `-X github.com/decred/dcrwallet/version.BuildMetadata=release ` +
+const wldflags = `-buildid= -X github.com/decred/dcrwallet/version.BuildMetadata=release ` +
 	`-X github.com/decred/dcrwallet/version.PreRelease=`
 
 const tags = "safe"
