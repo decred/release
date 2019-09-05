@@ -73,6 +73,7 @@ func build(tool, ldflags, goos, arch string) {
 func gocmd(goos, arch string, args ...string) {
 	os.Setenv("GOOS", goos)
 	os.Setenv("GOARCH", arch)
+	os.Setenv("CGO_ENABLED", "0")
 	output, err := exec.Command(*gobin, args...).CombinedOutput()
 	if len(output) != 0 {
 		log.Printf("go '%s'\n%s", strings.Join(args, `' '`), output)
