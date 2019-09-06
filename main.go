@@ -27,19 +27,20 @@ var targets = []struct{ os, arch string }{
 	{"freebsd", "amd64"},
 }
 
-const dldflags = `-buildid= -X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
-	`-X github.com/decred/dcrd/internal/version.PreRelease=`
-const wldflags = `-buildid= -X github.com/decred/dcrwallet/version.BuildMetadata=release ` +
+const ldflags = `-buildid= ` +
+	`-X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
+	`-X github.com/decred/dcrd/internal/version.PreRelease= ` +
+	`-X github.com/decred/dcrwallet/version.BuildMetadata=release ` +
 	`-X github.com/decred/dcrwallet/version.PreRelease=`
 
 const tags = "safe"
 
-var tools = []struct{ tool, ldflags string }{
+var tools = []string{
 	// dcrd release-v1.4.0 is broken due to replaces in main module
-	//{"github.com/decred/dcrd", dldflags},
-	{"github.com/decred/dcrd/cmd/dcrctl", dldflags},
-	{"github.com/decred/dcrd/cmd/promptsecret", dldflags},
-	{"github.com/decred/dcrwallet", wldflags},
+	//"github.com/decred/dcrd",
+	"github.com/decred/dcrd/cmd/dcrctl",
+	"github.com/decred/dcrd/cmd/promptsecret",
+	"github.com/decred/dcrwallet",
 }
 
 func main() {
@@ -47,7 +48,7 @@ func main() {
 	logvers()
 	for i := range targets {
 		for j := range tools {
-			build(tools[j].tool, tools[j].ldflags, targets[i].os, targets[i].arch)
+			build(tools[j], targets[i].os, targets[i].arch)
 		}
 	}
 }
@@ -60,7 +61,7 @@ func logvers() {
 	log.Printf("releasing with %s %s", *gobin, output)
 }
 
-func build(tool, ldflags, goos, arch string) {
+func build(tool, goos, arch string) {
 	exe := path.Base(tool) // TODO: fix for /v2+
 	if goos == "windows" {
 		exe += ".exe"
