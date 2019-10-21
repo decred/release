@@ -27,17 +27,16 @@ var targets = []struct{ os, arch string }{
 	{"freebsd", "amd64"},
 }
 
-const ldflags = `-buildid= ` +
+const ldflags =
 	`-X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
-	`-X github.com/decred/dcrd/internal/version.PreRelease= ` +
+	`-X github.com/decred/dcrd/internal/version.PreRelease=rc1 ` +
 	`-X github.com/decred/dcrwallet/version.BuildMetadata=release ` +
 	`-X github.com/decred/dcrwallet/version.PreRelease=`
 
 const tags = "safe"
 
 var tools = []string{
-	// dcrd release-v1.4.0 is broken due to replaces in main module
-	//"github.com/decred/dcrd",
+	"github.com/decred/dcrd",
 	"github.com/decred/dcrd/cmd/dcrctl",
 	"github.com/decred/dcrd/cmd/promptsecret",
 	"github.com/decred/dcrwallet",
