@@ -39,7 +39,7 @@ var tools = []string{
 	"github.com/decred/dcrd",
 	"github.com/decred/dcrd/cmd/dcrctl",
 	"github.com/decred/dcrd/cmd/promptsecret",
-	"github.com/decred/dcrwallet",
+	"decred.org/dcrwallet",
 }
 
 func main() {

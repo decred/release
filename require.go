@@ -9,5 +9,5 @@ import (
 	_ "github.com/decred/dcrd"
 	_ "github.com/decred/dcrd/cmd/dcrctl"
 	_ "github.com/decred/dcrd/cmd/promptsecret"
-	_ "github.com/decred/dcrwallet"
+	_ "decred.org/dcrwallet"
 )
