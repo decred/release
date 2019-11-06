@@ -19,10 +19,11 @@ var gobin = flag.String("go", findGo(), "Go binary")
 
 var targets = []struct{ os, arch string }{
 	{"linux", "amd64"},
-	{"linux", "arm"},
+	{"linux", "386"},
 	{"linux", "arm64"},
 	{"darwin", "amd64"},
 	{"windows", "amd64"},
+	{"windows", "386"},
 	{"openbsd", "amd64"},
 	{"freebsd", "amd64"},
 }
