@@ -35,11 +35,11 @@ const ldflags = `-buildid= ` +
 
 const tags = "safe"
 
-var tools = []string{
-	"github.com/decred/dcrd",
-	"github.com/decred/dcrd/cmd/dcrctl",
-	"github.com/decred/dcrd/cmd/promptsecret",
-	"decred.org/dcrwallet",
+var tools = []struct{ tool, builddir string }{
+	{"github.com/decred/dcrd", "./dcrd"},
+	{"github.com/decred/dcrd/cmd/dcrctl", "./dcrd"},
+	{"github.com/decred/dcrd/cmd/promptsecret", "./dcrd"},
+	{"decred.org/dcrwallet", "./dcrwallet"},
 }
 
 func main() {
@@ -47,7 +47,7 @@ func main() {
 	logvers()
 	for i := range targets {
 		for j := range tools {
-			build(tools[j], targets[i].os, targets[i].arch)
+			build(tools[j].tool, targets[i].os, targets[i].arch, tools[j].builddir)
 		}
 	}
 }
@@ -60,22 +60,24 @@ func logvers() {
 	log.Printf("releasing with %s %s", *gobin, output)
 }
 
-func build(tool, goos, arch string) {
+func build(tool, goos, arch, builddir string) {
 	exe := path.Base(tool) // TODO: fix for /v2+
 	if goos == "windows" {
 		exe += ".exe"
 	}
-	out := filepath.Join("bin", goos+"-"+arch, exe)
+	out := filepath.Join("..", "bin", goos+"-"+arch, exe)
 	log.Printf("build: %s", out)
-	gocmd(goos, arch, "build", "-trimpath", "-tags", tags, "-o", out, "-ldflags", ldflags, tool)
+	gocmd(goos, arch, builddir, "build", "-trimpath", "-tags", tags, "-o", out, "-ldflags", ldflags, tool)
 }
 
-func gocmd(goos, arch string, args ...string) {
+func gocmd(goos, arch, builddir string, args ...string) {
 	os.Setenv("GOOS", goos)
 	os.Setenv("GOARCH", arch)
 	os.Setenv("CGO_ENABLED", "0")
 	os.Setenv("GOFLAGS", "")
-	output, err := exec.Command(*gobin, args...).CombinedOutput()
+	cmd := exec.Command(*gobin, args...)
+	cmd.Dir = builddir
+	output, err := cmd.CombinedOutput()
 	if len(output) != 0 {
 		log.Printf("go '%s'\n%s", strings.Join(args, `' '`), output)
 	}
