@@ -36,10 +36,11 @@ const ldflags = `-buildid= ` +
 const tags = "safe"
 
 var tools = []struct{ tool, builddir string }{
+	{"decred.org/dcrwallet", "./dcrwallet"},
 	{"github.com/decred/dcrd", "./dcrd"},
 	{"github.com/decred/dcrd/cmd/dcrctl", "./dcrd"},
 	{"github.com/decred/dcrd/cmd/promptsecret", "./dcrd"},
-	{"decred.org/dcrwallet", "./dcrwallet"},
+	{"github.com/decred/dcrlnd/cmd/dcrlnd", "./dcrlnd"},
 }
 
 func main() {
@@ -66,7 +67,7 @@ func build(tool, goos, arch, builddir string) {
 		exe += ".exe"
 	}
 	out := filepath.Join("..", "bin", goos+"-"+arch, exe)
-	log.Printf("build: %s", out)
+	log.Printf("build: %s", out[3:]) // trim off leading "../"
 	gocmd(goos, arch, builddir, "build", "-trimpath", "-tags", tags, "-o", out, "-ldflags", ldflags, tool)
 }
 
