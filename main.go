@@ -31,7 +31,7 @@ const ldflags = `-buildid= ` +
 	`-X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
 	`-X github.com/decred/dcrd/internal/version.PreRelease=rc1 ` +
 	`-X github.com/decred/dcrwallet/version.BuildMetadata=release ` +
-	`-X github.com/decred/dcrwallet/version.PreRelease=`
+	`-X github.com/decred/dcrwallet/version.PreRelease=rc1`
 
 const tags = "safe"
 
