@@ -4,6 +4,7 @@ import (
 	"archive/tar"
 	"archive/zip"
 	"compress/gzip"
+	"crypto/sha256"
 	"flag"
 	"fmt"
 	"io"
@@ -27,14 +28,14 @@ var (
 )
 
 var targets = []struct{ os, arch string }{
-	{"linux", "amd64"},
-	{"linux", "386"},
-	{"linux", "arm64"},
 	{"darwin", "amd64"},
-	{"windows", "amd64"},
-	{"windows", "386"},
-	{"openbsd", "amd64"},
 	{"freebsd", "amd64"},
+	{"linux", "386"},
+	{"linux", "amd64"},
+	{"linux", "arm64"},
+	{"openbsd", "amd64"},
+	{"windows", "386"},
+	{"windows", "amd64"},
 }
 
 const relver = "v1.5.0-rc1"
@@ -45,7 +46,7 @@ const ldflags = `-buildid= ` +
 	`-X github.com/decred/dcrwallet/version.BuildMetadata=release ` +
 	`-X github.com/decred/dcrwallet/version.PreRelease=rc1`
 
-const tags = "safe"
+const tags = "safe,netgo"
 
 var tools = []struct{ tool, builddir string }{
 	{"decred.org/dcrwallet", "./dcrwallet"},
@@ -55,9 +56,17 @@ var tools = []struct{ tool, builddir string }{
 	{"github.com/decred/dcrlnd/cmd/dcrlnd", "./dcrlnd"},
 }
 
+type manifestLine struct {
+	name string
+	hash [32]byte
+}
+
+type manifest []manifestLine
+
 func main() {
 	flag.Parse()
 	logvers()
+	var m manifest
 	for i := range targets {
 		for j := range tools {
 			if *nobuild {
@@ -68,7 +77,10 @@ func main() {
 		if *noarchive {
 			continue
 		}
-		archive(targets[i].os, targets[i].arch)
+		archive(targets[i].os, targets[i].arch, &m)
+	}
+	if len(m) > 0 {
+		writeManifest(m)
 	}
 }
 
@@ -111,7 +123,7 @@ func gocmd(goos, arch, builddir string, args ...string) {
 	}
 }
 
-func archive(goos, arch string) {
+func archive(goos, arch string, m *manifest) {
 	if _, err := os.Stat("archive"); os.IsNotExist(err) {
 		err := os.Mkdir("archive", 0777)
 		if err != nil {
@@ -119,7 +131,7 @@ func archive(goos, arch string) {
 		}
 	}
 	if goos == "windows" {
-		archiveZip(goos, arch)
+		archiveZip(goos, arch, m)
 		return
 	}
 	tarPath := fmt.Sprintf("decred-%s-%s-%s", goos, arch, relver)
@@ -178,7 +190,15 @@ func archive(goos, arch string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	zw := gzip.NewWriter(zf)
+	hash := sha256.New()
+	defer func() {
+		name := filepath.Base(tarFile.Name()) + ".gz"
+		var sum [32]byte
+		copy(sum[:], hash.Sum(nil))
+		*m = append(*m, manifestLine{name, sum})
+	}()
+	w := io.MultiWriter(zf, hash)
+	zw := gzip.NewWriter(w)
 	_, err = tarFile.Seek(0, os.SEEK_SET)
 	if err != nil {
 		log.Fatal(err)
@@ -201,15 +221,23 @@ func archive(goos, arch string) {
 	}
 }
 
-func archiveZip(goos, arch string) {
+func archiveZip(goos, arch string, m *manifest) {
 	zipPath := fmt.Sprintf("decred-%s-%s-%s", goos, arch, relver)
 	zipFile, err := os.Create(fmt.Sprintf("archive/%s.zip", zipPath))
 	defer zipFile.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
+	hash := sha256.New()
+	w := io.MultiWriter(zipFile, hash)
+	defer func() {
+		name := filepath.Base(zipFile.Name())
+		var sum [32]byte
+		copy(sum[:], hash.Sum(nil))
+		*m = append(*m, manifestLine{name, sum})
+	}()
 	log.Printf("archive: %v", zipFile.Name())
-	zw := zip.NewWriter(zipFile)
+	zw := zip.NewWriter(w)
 	for i := range tools {
 		exe := exeName(tools[i].tool, goos)
 		exePath := filepath.Join("bin", goos+"-"+arch, exe)
@@ -232,6 +260,24 @@ func archiveZip(goos, arch string) {
 		exeFi.Close()
 	}
 	err = zw.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func writeManifest(m manifest) {
+	fi, err := os.Create(fmt.Sprintf("archive/manifest-%s.txt", relver))
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("manifest: %v", fi.Name())
+	for i := range m {
+		_, err = fmt.Fprintf(fi, "%x  %s\n", m[i].hash, m[i].name)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	err = fi.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
