@@ -246,7 +246,7 @@ func archiveZip(goos, arch string, m *manifest) {
 			log.Fatal(err)
 		}
 		h := &zip.FileHeader{
-			Name:   filepath.Join(zipPath, exe),
+			Name:   strings.ReplaceAll(filepath.Join(zipPath, exe), `\`, `/`),
 			Method: zip.Deflate,
 		}
 		f, err := zw.CreateHeader(h)
