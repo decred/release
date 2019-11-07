@@ -266,7 +266,7 @@ func archiveZip(goos, arch string, m *manifest) {
 }
 
 func writeManifest(m manifest) {
-	fi, err := os.Create(fmt.Sprintf("archive/manifest-%s.txt", relver))
+	fi, err := os.Create(fmt.Sprintf("archive/decred-%s-manifest.txt", relver))
 	if err != nil {
 		log.Fatal(err)
 	}
