@@ -145,12 +145,12 @@ func archive(goos, arch string, m *manifest) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	hdr, err := tar.FileInfoHeader(dirInfo, "")
-	if err != nil {
-		log.Fatal(err)
+	hdr := &tar.Header{
+		Name:     tarPath + "/",
+		Typeflag: tar.TypeDir,
+		Mode:     int64(dirInfo.Mode().Perm()),
+		Format:   tar.FormatPAX,
 	}
-	hdr.Name = tarPath
-	hdr.Format = tar.FormatPAX
 	err = tw.WriteHeader(hdr)
 	if err != nil {
 		log.Fatal(err)
@@ -166,12 +166,13 @@ func archive(goos, arch string, m *manifest) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		hdr, err := tar.FileInfoHeader(info, "")
-		if err != nil {
-			log.Fatal(err)
+		hdr := &tar.Header{
+			Name:     strings.ReplaceAll(filepath.Join(tarPath, exe), `\`, `/`),
+			Typeflag: tar.TypeReg,
+			Mode:     int64(info.Mode().Perm()),
+			Size:     info.Size(),
+			Format:   tar.FormatPAX,
 		}
-		hdr.Name = filepath.Join(tarPath, exe)
-		hdr.Format = tar.FormatPAX
 		err = tw.WriteHeader(hdr)
 		if err != nil {
 			log.Fatal(err)
