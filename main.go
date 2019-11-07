@@ -56,6 +56,7 @@ var tools = []struct{ tool, builddir string }{
 	{"github.com/decred/dcrd/cmd/dcrctl", "./dcrd"},
 	{"github.com/decred/dcrd/cmd/promptsecret", "./dcrd"},
 	{"github.com/decred/dcrlnd/cmd/dcrlnd", "./dcrlnd"},
+	{"github.com/decred/dcrlnd/cmd/dcrlncli", "./dcrlnd"},
 }
 
 type manifestLine struct {
