@@ -143,14 +143,10 @@ func archive(goos, arch string, m *manifest) {
 	}
 	log.Printf("archive: %v", tarFile.Name()+".gz")
 	tw := tar.NewWriter(tarFile)
-	dirInfo, err := os.Stat(filepath.Join("bin", goos+"-"+arch))
-	if err != nil {
-		log.Fatal(err)
-	}
 	hdr := &tar.Header{
 		Name:     tarPath + "/",
 		Typeflag: tar.TypeDir,
-		Mode:     int64(dirInfo.Mode().Perm()),
+		Mode:     0755,
 		Format:   tar.FormatPAX,
 	}
 	err = tw.WriteHeader(hdr)
@@ -171,7 +167,7 @@ func archive(goos, arch string, m *manifest) {
 		hdr := &tar.Header{
 			Name:     strings.ReplaceAll(filepath.Join(tarPath, exe), `\`, `/`),
 			Typeflag: tar.TypeReg,
-			Mode:     int64(info.Mode().Perm()),
+			Mode:     0755,
 			Size:     info.Size(),
 			Format:   tar.FormatPAX,
 		}
