@@ -3,6 +3,7 @@ package main
 import (
 	"archive/tar"
 	"archive/zip"
+	"bytes"
 	"compress/gzip"
 	"crypto/sha256"
 	"flag"
@@ -62,6 +63,19 @@ var tools = []struct{ tool, builddir string }{
 	{"github.com/decred/politeia/politeiawww/cmd/politeiavoter", "./politeia"},
 }
 
+var assets = []struct {
+	builddir string
+	name     string
+	goargs   []string
+	contents []byte
+}{
+	{
+		builddir: "./dcrwallet",
+		name:     "sample-dcrwallet.conf",
+		goargs:   []string{"run", "readasset.go", "../sample-dcrwallet.conf"},
+	},
+}
+
 type manifestLine struct {
 	name string
 	hash [32]byte
@@ -73,6 +87,9 @@ func main() {
 	flag.Parse()
 	logvers()
 	var m manifest
+	for i, a := range assets {
+		assets[i].contents = readasset(a.builddir, a.goargs)
+	}
 	for i := range targets {
 		for j := range tools {
 			if *nobuild {
@@ -106,6 +123,16 @@ func exeName(module, goos string) string {
 	return exe
 }
 
+func readasset(builddir string, goargs []string) []byte {
+	cmd := exec.Command("go", goargs...)
+	cmd.Dir = builddir
+	output, err := cmd.Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return output
+}
+
 func build(tool, goos, arch, builddir string) {
 	exe := exeName(tool, goos)
 	out := filepath.Join("..", "bin", goos+"-"+arch, exe)
@@ -118,7 +145,7 @@ func gocmd(goos, arch, builddir string, args ...string) {
 	os.Setenv("GOARCH", arch)
 	os.Setenv("CGO_ENABLED", "0")
 	os.Setenv("GOFLAGS", "")
-	os.Setenv("GOCACHE", "./gocache") // Use separate caches to workaround golang.org/issue/35412
+	//os.Setenv("GOCACHE", "./gocache") // Use separate caches to workaround golang.org/issue/35412
 	cmd := exec.Command(*gobin, args...)
 	cmd.Dir = builddir
 	output, err := cmd.CombinedOutput()
@@ -158,6 +185,23 @@ func archive(goos, arch string, m *manifest) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	addFile := func(name string, r io.Reader, size int64) {
+		hdr := &tar.Header{
+			Name:     strings.ReplaceAll(filepath.Join(tarPath, name), `\`, `/`),
+			Typeflag: tar.TypeReg,
+			Mode:     0755,
+			Size:     size,
+			Format:   tar.FormatPAX,
+		}
+		err = tw.WriteHeader(hdr)
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = io.Copy(tw, r)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 	for i := range tools {
 		exe := exeName(tools[i].tool, goos)
 		exePath := filepath.Join("bin", goos+"-"+arch, exe)
@@ -165,26 +209,15 @@ func archive(goos, arch string, m *manifest) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		exeFi, err := os.Open(exePath)
+		file, err := os.Open(exePath)
 		if err != nil {
 			log.Fatal(err)
 		}
-		hdr := &tar.Header{
-			Name:     strings.ReplaceAll(filepath.Join(tarPath, exe), `\`, `/`),
-			Typeflag: tar.TypeReg,
-			Mode:     0755,
-			Size:     info.Size(),
-			Format:   tar.FormatPAX,
-		}
-		err = tw.WriteHeader(hdr)
-		if err != nil {
-			log.Fatal(err)
-		}
-		_, err = io.Copy(tw, exeFi)
-		if err != nil {
-			log.Fatal(err)
-		}
-		exeFi.Close()
+		addFile(exe, file, info.Size())
+		file.Close()
+	}
+	for _, a := range assets {
+		addFile(a.name, bytes.NewBuffer(a.contents), int64(len(a.contents)))
 	}
 	err = tw.Close()
 	if err != nil {
@@ -242,6 +275,20 @@ func archiveZip(goos, arch string, m *manifest) {
 	}()
 	log.Printf("archive: %v", zipFile.Name())
 	zw := zip.NewWriter(w)
+	addFile := func(name string, r io.Reader) {
+		h := &zip.FileHeader{
+			Name:   strings.ReplaceAll(filepath.Join(zipPath, name), `\`, `/`),
+			Method: zip.Deflate,
+		}
+		f, err := zw.CreateHeader(h)
+		if err != nil {
+			log.Fatal(err)
+		}
+		_, err = io.Copy(f, r)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 	for i := range tools {
 		exe := exeName(tools[i].tool, goos)
 		exePath := filepath.Join("bin", goos+"-"+arch, exe)
@@ -249,19 +296,11 @@ func archiveZip(goos, arch string, m *manifest) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		h := &zip.FileHeader{
-			Name:   strings.ReplaceAll(filepath.Join(zipPath, exe), `\`, `/`),
-			Method: zip.Deflate,
-		}
-		f, err := zw.CreateHeader(h)
-		if err != nil {
-			log.Fatal(err)
-		}
-		_, err = io.Copy(f, exeFi)
-		if err != nil {
-			log.Fatal(err)
-		}
+		addFile(exe, exeFi)
 		exeFi.Close()
+	}
+	for _, a := range assets {
+		addFile(a.name, bytes.NewBuffer(a.contents))
 	}
 	err = zw.Close()
 	if err != nil {
