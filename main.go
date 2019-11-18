@@ -85,6 +85,11 @@ var assets = []struct {
 	//	goargs:   []string{"run", "readasset.go", "sample-dcrctl.conf"},
 	//},
 	{
+		builddir: "./dcrlnd",
+		name: "sample-dcrlnd.conf",
+		goargs:   []string{"run", "readasset.go", "../sample-dcrlnd.conf"},
+	},
+	{
 		builddir: "./politeia",
 		name:     "sample-politeiavoter.conf",
 		goargs:   []string{"run", "readasset.go", "sample-politeiavoter.conf"},
