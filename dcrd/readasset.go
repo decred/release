@@ -11,7 +11,7 @@ import (
 
 var assets = map[string][]byte{
 	"sample-dcrd.conf":   []byte(sampleconfig.FileContents),
-	//"sample-dcrctl.conf": []byte(sampleconfig.DcrctlSampleConfig),
+	"sample-dcrctl.conf": []byte(sampleconfig.DcrctlSampleConfig),
 }
 
 func main() {

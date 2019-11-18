@@ -79,11 +79,11 @@ var assets = []struct {
 		name:     "sample-dcrd.conf",
 		goargs:   []string{"run", "readasset.go", "sample-dcrd.conf"},
 	},
-	//{
-	//	builddir: "./dcrd",
-	//	name:     "sample-dcrctl.conf",
-	//	goargs:   []string{"run", "readasset.go", "sample-dcrctl.conf"},
-	//},
+	{
+		builddir: "./dcrd",
+		name:     "sample-dcrctl.conf",
+		goargs:   []string{"run", "readasset.go", "sample-dcrctl.conf"},
+	},
 	{
 		builddir: "./dcrlnd",
 		name:     "sample-dcrlnd.conf",
