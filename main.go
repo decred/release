@@ -86,7 +86,7 @@ var assets = []struct {
 	//},
 	{
 		builddir: "./dcrlnd",
-		name: "sample-dcrlnd.conf",
+		name:     "sample-dcrlnd.conf",
 		goargs:   []string{"run", "readasset.go", "../sample-dcrlnd.conf"},
 	},
 	{
