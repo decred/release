@@ -214,7 +214,7 @@ func archive(goos, arch string, m *manifest) {
 		hdr := &tar.Header{
 			Name:     strings.ReplaceAll(filepath.Join(tarPath, name), `\`, `/`),
 			Typeflag: tar.TypeReg,
-			Mode:     0755,
+			Mode:     mode,
 			Size:     size,
 			Format:   tar.FormatPAX,
 		}
