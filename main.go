@@ -118,6 +118,7 @@ func gocmd(goos, arch, builddir string, args ...string) {
 	os.Setenv("GOARCH", arch)
 	os.Setenv("CGO_ENABLED", "0")
 	os.Setenv("GOFLAGS", "")
+	os.Setenv("GOCACHE", "./gocache") // Use separate caches to workaround golang.org/issue/35412
 	cmd := exec.Command(*gobin, args...)
 	cmd.Dir = builddir
 	output, err := cmd.CombinedOutput()
