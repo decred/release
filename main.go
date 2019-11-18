@@ -74,6 +74,16 @@ var assets = []struct {
 		name:     "sample-dcrwallet.conf",
 		goargs:   []string{"run", "readasset.go", "../sample-dcrwallet.conf"},
 	},
+	{
+		builddir: "./dcrd",
+		name:     "sample-dcrd.conf",
+		goargs:   []string{"run", "readasset.go", "sample-dcrd.conf"},
+	},
+	//{
+	//	builddir: "./dcrd",
+	//	name:     "sample-dcrctl.conf",
+	//	goargs:   []string{"run", "readasset.go", "sample-dcrctl.conf"},
+	//},
 }
 
 type manifestLine struct {
