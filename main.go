@@ -84,6 +84,11 @@ var assets = []struct {
 	//	name:     "sample-dcrctl.conf",
 	//	goargs:   []string{"run", "readasset.go", "sample-dcrctl.conf"},
 	//},
+	{
+		builddir: "./politeia",
+		name:     "sample-politeiavoter.conf",
+		goargs:   []string{"run", "readasset.go", "sample-politeiavoter.conf"},
+	},
 }
 
 type manifestLine struct {
