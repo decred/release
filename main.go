@@ -144,7 +144,7 @@ func exeName(module, goos string) string {
 }
 
 func readasset(builddir string, goargs []string) []byte {
-	cmd := exec.Command("go", goargs...)
+	cmd := exec.Command(*gobin, goargs...)
 	cmd.Dir = builddir
 	output, err := cmd.Output()
 	if err != nil {
