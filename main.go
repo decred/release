@@ -210,7 +210,7 @@ func archive(goos, arch string, m *manifest) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	addFile := func(name string, r io.Reader, size int64) {
+	addFile := func(name string, r io.Reader, mode, size int64) {
 		hdr := &tar.Header{
 			Name:     strings.ReplaceAll(filepath.Join(tarPath, name), `\`, `/`),
 			Typeflag: tar.TypeReg,
@@ -238,11 +238,11 @@ func archive(goos, arch string, m *manifest) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		addFile(exe, file, info.Size())
+		addFile(exe, file, 0755, info.Size())
 		file.Close()
 	}
 	for _, a := range assets {
-		addFile(a.name, bytes.NewBuffer(a.contents), int64(len(a.contents)))
+		addFile(a.name, bytes.NewBuffer(a.contents), 0644, int64(len(a.contents)))
 	}
 	err = tw.Close()
 	if err != nil {
