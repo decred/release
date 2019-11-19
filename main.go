@@ -347,7 +347,7 @@ func writeManifest(m manifest) {
 		}
 	}
 	fp := sha256.Sum256(buf.Bytes())
-	log.Printf("build fingerprint: %x", fp)
+	log.Printf("manifest hash: SHA256:%x", fp)
 	_, err = io.Copy(fi, buf)
 	if err != nil {
 		log.Fatal(err)
