@@ -339,11 +339,18 @@ func writeManifest(m manifest) {
 		log.Fatal(err)
 	}
 	log.Printf("manifest: %v", fi.Name())
+	buf := new(bytes.Buffer)
 	for i := range m {
-		_, err = fmt.Fprintf(fi, "%x  %s\n", m[i].hash, m[i].name)
+		_, err = fmt.Fprintf(buf, "%x  %s\n", m[i].hash, m[i].name)
 		if err != nil {
 			log.Fatal(err)
 		}
+	}
+	fp := sha256.Sum256(buf.Bytes())
+	log.Printf("build fingerprint: %x", fp)
+	_, err = io.Copy(fi, buf)
+	if err != nil {
+		log.Fatal(err)
 	}
 	err = fi.Close()
 	if err != nil {
