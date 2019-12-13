@@ -39,17 +39,17 @@ var targets = []struct{ os, arch string }{
 	{"windows", "amd64"},
 }
 
-const relver = "v1.5.0-rc3"
+const relver = "v1.5.0"
 
 const ldflags = `-buildid= ` +
 	`-X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
-	`-X github.com/decred/dcrd/internal/version.PreRelease=rc3 ` +
+	`-X github.com/decred/dcrd/internal/version.PreRelease= ` +
 	`-X github.com/decred/dcrwallet/version.BuildMetadata=release ` +
-	`-X github.com/decred/dcrwallet/version.PreRelease=rc3 ` +
+	`-X github.com/decred/dcrwallet/version.PreRelease= ` +
 	`-X github.com/decred/dcrlnd/build.BuildMetadata=release ` +
-	`-X github.com/decred/dcrlnd/build.PreRelease=rc3 ` +
+	`-X github.com/decred/dcrlnd/build.PreRelease= ` +
 	`-X github.com/decred/politeia/util/version.BuildMetadata=release ` +
-	`-X github.com/decred/politeia/util/version.PreRelease=rc3`
+	`-X github.com/decred/politeia/util/version.PreRelease=`
 
 const tags = "safe,netgo"
 
