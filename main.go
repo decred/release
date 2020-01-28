@@ -39,7 +39,7 @@ var targets = []struct{ os, arch string }{
 	{"windows", "amd64"},
 }
 
-const relver = "v1.5.0"
+const relver = "v1.5.1-rc1"
 
 const ldflags = `-buildid= ` +
 	`-X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
