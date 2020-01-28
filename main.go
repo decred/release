@@ -33,6 +33,7 @@ var targets = []struct{ os, arch string }{
 	{"freebsd", "amd64"},
 	{"linux", "386"},
 	{"linux", "amd64"},
+	{"linux", "arm"},
 	{"linux", "arm64"},
 	{"openbsd", "amd64"},
 	{"windows", "386"},
@@ -165,6 +166,9 @@ func gocmd(goos, arch, builddir string, args ...string) {
 	os.Setenv("GOARCH", arch)
 	os.Setenv("CGO_ENABLED", "0")
 	os.Setenv("GOFLAGS", "")
+	if arch == "arm" {
+		os.Setenv("GOARM", "7")
+	}
 	// Use separate caches to workaround golang.org/issue/35412
 	cwd, err := os.Getwd()
 	if err != nil {
