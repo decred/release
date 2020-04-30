@@ -1,3 +1,3 @@
-module github.com/jrick/release
+module decred.org/release
 
-go 1.13
+go 1.14
