@@ -1,4 +1,4 @@
-module github.com/jrick/release/dcrlnd
+module decred.org/release/dcrlnd
 
 go 1.13
 

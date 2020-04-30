@@ -1,4 +1,4 @@
-module github.com/jrick/release/politeia
+module decred.org/release/politeia
 
 go 1.13
 

@@ -1,4 +1,4 @@
-module github.com/jrick/release/dcrd
+module decred.org/release/dcrd
 
 go 1.13
 

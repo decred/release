@@ -1,4 +1,4 @@
-module github.com/jrick/release/dcrwallet
+module decred.org/release/dcrwallet
 
 go 1.13
 
