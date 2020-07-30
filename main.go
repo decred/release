@@ -137,7 +137,19 @@ func logvers() {
 }
 
 func exeName(module, goos string) string {
-	exe := path.Base(module) // TODO: fix for /v2+
+	isMajor := func(s string) bool {
+		for _, v := range s {
+			if v < '0' || v > '9' {
+				return false
+			}
+		}
+		return len(s) > 0
+	}
+	exe := path.Base(module)
+	// strip /v2+
+	if exe[0] == 'v' && isMajor(exe[1:]) {
+		exe = path.Base(path.Dir(module))
+	}
 	if goos == "windows" {
 		exe += ".exe"
 	}
