@@ -10,7 +10,7 @@ import (
 )
 
 var assets = map[string][]byte{
-	"sample-politeiavoter.conf":   []byte(sampleconfig.FileContents),
+	"sample-politeiavoter.conf": []byte(sampleconfig.FileContents),
 }
 
 func main() {
