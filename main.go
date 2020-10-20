@@ -137,7 +137,7 @@ func buildinfo() string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(output)
+	return strings.TrimRight(string(output), "\r\n")
 }
 
 func exeName(module, goos string) string {
