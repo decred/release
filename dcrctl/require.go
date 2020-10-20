@@ -6,7 +6,5 @@
 package main
 
 import (
-	_ "github.com/decred/dcrd"
-	_ "github.com/decred/dcrd/cmd/gencerts"
-	_ "github.com/decred/dcrd/cmd/promptsecret"
+	_ "decred.org/dcrctl"
 )

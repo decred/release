@@ -9,9 +9,9 @@ import (
 	"github.com/decred/dcrd/sampleconfig"
 )
 
-var assets = map[string][]byte{
-	"sample-dcrd.conf":   []byte(sampleconfig.FileContents),
-	"sample-dcrctl.conf": []byte(sampleconfig.DcrctlSampleConfig),
+var assets = map[string]func() string{
+	"sample-dcrd.conf":   sampleconfig.FileContents,
+	"sample-dcrctl.conf": func() string { return sampleconfig.DcrctlSampleConfig },
 }
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 	if !ok {
 		log.Fatalf("missing asset %q", asset)
 	}
-	_, err := os.Stdout.Write(contents)
+	_, err := os.Stdout.Write([]byte(contents()))
 	if err != nil {
 		log.Fatal(err)
 	}
