@@ -106,7 +106,8 @@ type manifest []manifestLine
 
 func main() {
 	flag.Parse()
-	logvers()
+	buildinfo := buildinfo()
+	log.Printf("releasing with %s %s", *gobin, buildinfo)
 	var m manifest
 	for i, a := range assets {
 		assets[i].contents = readasset(a.builddir, a.goargs)
@@ -124,16 +125,16 @@ func main() {
 		archive(targets[i].os, targets[i].arch, &m)
 	}
 	if len(m) > 0 {
-		writeManifest(m)
+		writeManifest(m, buildinfo)
 	}
 }
 
-func logvers() {
+func buildinfo() string {
 	output, err := exec.Command(*gobin, "version").CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("releasing with %s %s", *gobin, output)
+	return string(output)
 }
 
 func exeName(module, goos string) string {
@@ -343,7 +344,7 @@ func archiveZip(goos, arch string, m *manifest) {
 	}
 }
 
-func writeManifest(m manifest) {
+func writeManifest(m manifest, buildinfo string) {
 	fi, err := os.Create(fmt.Sprintf("archive/decred-%s-manifest.txt", relver))
 	if err != nil {
 		log.Fatal(err)
@@ -357,7 +358,7 @@ func writeManifest(m manifest) {
 		}
 	}
 	fp := sha256.Sum256(buf.Bytes())
-	log.Printf("manifest hash: SHA256:%x", fp)
+	log.Printf("manifest hash: SHA256:%x (%s)", fp, buildinfo)
 	_, err = io.Copy(fi, buf)
 	if err != nil {
 		log.Fatal(err)
