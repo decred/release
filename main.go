@@ -26,9 +26,12 @@ var (
 	gobin     = flag.String("go", findGo(), "Go binary")
 	nobuild   = flag.Bool("nobuild", false, "skip go build")
 	noarchive = flag.Bool("noarchive", false, "skip archiving")
+	target    = flag.String("target", "", "only build for os/arch")
 )
 
-var targets = []struct{ os, arch string }{
+type tuple struct{ os, arch string }
+
+var targets = []tuple{
 	{"darwin", "amd64"},
 	{"freebsd", "amd64"},
 	{"linux", "386"},
@@ -115,6 +118,10 @@ func main() {
 	for i, a := range assets {
 		assets[i].contents = readasset(a.builddir, a.goargs)
 	}
+	if slash := strings.IndexByte(*target, '/'); slash != -1 {
+		os, arch := (*target)[:slash], (*target)[slash+1:]
+		targets = append(targets[:0], tuple{os, arch})
+	}
 	for i := range targets {
 		for j := range tools {
 			if *nobuild {
@@ -127,7 +134,7 @@ func main() {
 		}
 		archive(targets[i].os, targets[i].arch, &m)
 	}
-	if len(m) > 0 {
+	if len(m) > 0 && *target == "" {
 		writeManifest(m, buildinfo)
 	}
 }
