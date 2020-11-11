@@ -51,6 +51,7 @@ type dist struct {
 	assets     []buildasset
 	copyassets []string
 	ldflags    string
+	plainbins  bool
 	manifest   manifest
 	sum        *[32]byte
 }
@@ -135,6 +136,14 @@ var dists = []dist{{
 	ldflags: `-buildid= ` +
 		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=release ` +
 		`-X decred.org/dcrdex/client/cmd/dexc/version.appBuild=`,
+}, {
+	dist:   "dcrinstall",
+	relver: "v1.6.0-pre",
+	tools: []buildtool{
+		{"github.com/decred/decred-release/cmd/dcrinstall", "./decred-release"},
+	},
+	ldflags:   `-buildid= -X main.appBuild=release`,
+	plainbins: true,
 }}
 
 const tags = "safe,netgo"
@@ -180,6 +189,10 @@ func (d *dist) release() {
 		if *noarchive {
 			continue
 		}
+		if d.plainbins {
+			d.distbins(target.os, target.arch)
+			continue
+		}
 		d.archive(target.os, target.arch)
 	}
 	if len(d.manifest) > 0 && *target == "" {
@@ -195,7 +208,7 @@ func buildinfo() string {
 	return strings.TrimRight(string(output), "\r\n")
 }
 
-func exeName(module, goos string) string {
+func toolName(module string) string {
 	isMajor := func(s string) bool {
 		for _, v := range s {
 			if v < '0' || v > '9' {
@@ -204,11 +217,16 @@ func exeName(module, goos string) string {
 		}
 		return len(s) > 0
 	}
-	exe := path.Base(module)
+	tool := path.Base(module)
 	// strip /v2+
-	if exe[0] == 'v' && isMajor(exe[1:]) {
-		exe = path.Base(path.Dir(module))
+	if tool[0] == 'v' && isMajor(tool[1:]) {
+		tool = path.Base(path.Dir(module))
 	}
+	return tool
+}
+
+func exeName(module, goos string) string {
+	exe := toolName(module)
 	if goos == "windows" {
 		exe += ".exe"
 	}
@@ -255,6 +273,54 @@ func gocmd(goos, arch, builddir string, args ...string) {
 	}
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+func (d *dist) distbins(goos, arch string) {
+	archivedir := filepath.Join("archive", d.dist+"-"+d.relver)
+	if _, err := os.Stat(archivedir); os.IsNotExist(err) {
+		err := os.MkdirAll(archivedir, 0777)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	hash := sha256.New()
+	for i := range d.tools {
+		tool := toolName(d.tools[i].tool)
+		srcexe := tool
+		if goos == "windows" {
+			srcexe += ".exe"
+		}
+		srcpath := filepath.Join("bin", goos+"-"+arch, srcexe)
+		src, err := os.Open(srcpath)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer src.Close()
+		dstpath := fmt.Sprintf("archive/%s-%s/%s-%s-%s-%[2]s",
+			d.dist, d.relver, tool, goos, arch)
+		if goos == "windows" {
+			dstpath += ".exe"
+		}
+		log.Printf("dist: %v", dstpath)
+		dst, err := os.OpenFile(dstpath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0755)
+		if err != nil {
+			log.Fatal(err)
+		}
+		hash.Reset()
+		w := io.MultiWriter(dst, hash)
+		_, err = io.Copy(w, src)
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = dst.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		var sum [32]byte
+		copy(sum[:], hash.Sum(nil))
+		d.manifest = append(d.manifest, manifestLine{filepath.Base(dst.Name()), sum})
 	}
 }
 
