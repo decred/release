@@ -277,9 +277,9 @@ func gocmd(goos, arch, builddir string, args ...string) {
 }
 
 func (d *dist) distbins(goos, arch string) {
-	archivedir := filepath.Join("archive", d.dist+"-"+d.relver)
-	if _, err := os.Stat(archivedir); os.IsNotExist(err) {
-		err := os.MkdirAll(archivedir, 0777)
+	distdir := filepath.Join("dist", d.dist+"-"+d.relver)
+	if _, err := os.Stat(distdir); os.IsNotExist(err) {
+		err := os.MkdirAll(distdir, 0777)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -297,7 +297,7 @@ func (d *dist) distbins(goos, arch string) {
 			log.Fatal(err)
 		}
 		defer src.Close()
-		dstpath := fmt.Sprintf("archive/%s-%s/%s-%s-%s-%[2]s",
+		dstpath := fmt.Sprintf("dist/%s-%s/%s-%s-%s-%[2]s",
 			d.dist, d.relver, tool, goos, arch)
 		if goos == "windows" {
 			dstpath += ".exe"
@@ -325,9 +325,9 @@ func (d *dist) distbins(goos, arch string) {
 }
 
 func (d *dist) archive(goos, arch string) {
-	archivedir := filepath.Join("archive", d.dist+"-"+d.relver)
-	if _, err := os.Stat(archivedir); os.IsNotExist(err) {
-		err := os.MkdirAll(archivedir, 0777)
+	distdir := filepath.Join("dist", d.dist+"-"+d.relver)
+	if _, err := os.Stat(distdir); os.IsNotExist(err) {
+		err := os.MkdirAll(distdir, 0777)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -337,7 +337,7 @@ func (d *dist) archive(goos, arch string) {
 		return
 	}
 	tarPath := fmt.Sprintf("%s-%s-%s-%s", d.dist, goos, arch, d.relver)
-	tarFile, err := os.Create(filepath.Join(archivedir, tarPath+".tar"))
+	tarFile, err := os.Create(filepath.Join(distdir, tarPath+".tar"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -435,7 +435,7 @@ func (d *dist) archive(goos, arch string) {
 
 func (d *dist) archiveZip(goos, arch string) {
 	zipPath := fmt.Sprintf("%s-%s-%s-%s", d.dist, goos, arch, d.relver)
-	zipFile, err := os.Create(fmt.Sprintf("archive/%s-%s/%s.zip", d.dist, d.relver, zipPath))
+	zipFile, err := os.Create(fmt.Sprintf("dist/%s-%s/%s.zip", d.dist, d.relver, zipPath))
 	defer zipFile.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -448,7 +448,7 @@ func (d *dist) archiveZip(goos, arch string) {
 		copy(sum[:], hash.Sum(nil))
 		d.manifest = append(d.manifest, manifestLine{name, sum})
 	}()
-	log.Printf("archive: %v", zipFile.Name())
+	log.Printf("dist: %v", zipFile.Name())
 	zw := zip.NewWriter(w)
 	addFile := func(name string, r io.Reader) {
 		h := &zip.FileHeader{
@@ -513,7 +513,7 @@ func addassetdir(dir string, addFile func(string, io.Reader, int64, int64)) file
 }
 
 func (d *dist) writeManifest() {
-	fi, err := os.Create(fmt.Sprintf("archive/%s-%s/%[1]s-%[2]s-manifest.txt", d.dist, d.relver))
+	fi, err := os.Create(fmt.Sprintf("dist/%s-%s/%[1]s-%[2]s-manifest.txt", d.dist, d.relver))
 	if err != nil {
 		log.Fatal(err)
 	}
