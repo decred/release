@@ -27,7 +27,7 @@ var (
 	nobuild   = flag.Bool("nobuild", false, "skip go build")
 	noarchive = flag.Bool("noarchive", false, "skip archiving")
 	target    = flag.String("target", "", "only build for os/arch")
-	onlydist  = flag.String("dist", "", "only release this distribution (one of: decred dexc)")
+	onlydist  = flag.String("dist", "", "only release this distribution (one of: decred dexc dcrinstall)")
 )
 
 type tuple struct{ os, arch string }
