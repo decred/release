@@ -27,6 +27,7 @@ var (
 	nobuild   = flag.Bool("nobuild", false, "skip go build")
 	noarchive = flag.Bool("noarchive", false, "skip archiving")
 	target    = flag.String("target", "", "only build for os/arch")
+	onlydist  = flag.String("dist", "", "only release this distribution (one of: decred dexc)")
 )
 
 type tuple struct{ os, arch string }
@@ -44,13 +45,14 @@ var targets = []tuple{
 }
 
 type dist struct {
-	dist     string
-	relver   string
-	tools    []buildtool
-	assets   []buildasset
-	ldflags  string
-	manifest manifest
-	sum      *[32]byte
+	dist       string
+	relver     string
+	tools      []buildtool
+	assets     []buildasset
+	copyassets []string
+	ldflags    string
+	manifest   manifest
+	sum        *[32]byte
 }
 
 type buildtool struct{ tool, builddir string }
@@ -120,6 +122,19 @@ var dists = []dist{{
 		`-X github.com/decred/politeia/util/version.PreRelease=rc2 ` +
 		`-X main.BuildMetadata=release ` +
 		`-X main.PreRelease=rc2`,
+}, {
+	dist:   "dexc",
+	relver: "v0.1.2-pre",
+	tools: []buildtool{
+		{"decred.org/dcrdex/client/cmd/dexc", "./dcrdex"},
+		{"decred.org/dcrdex/client/cmd/dexcctl", "./dcrdex"},
+	},
+	copyassets: []string{
+		readassetpath("./dcrdex", "sitepath.go"),
+	},
+	ldflags: `-buildid= ` +
+		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=release ` +
+		`-X decred.org/dcrdex/client/cmd/dexc/version.appBuild=`,
 }}
 
 const tags = "safe,netgo"
@@ -127,7 +142,6 @@ const tags = "safe,netgo"
 func main() {
 	flag.Parse()
 	buildinfo := buildinfo()
-	log.Printf("releasing with %s %s", *gobin, buildinfo)
 
 	if slash := strings.IndexByte(*target, '/'); slash != -1 {
 		os, arch := (*target)[:slash], (*target)[slash+1:]
@@ -135,8 +149,13 @@ func main() {
 	}
 
 	for i := range dists {
-		dist := &dists[i]
-		dist.release()
+		if *onlydist != "" && *onlydist != dists[i].dist {
+			continue
+		}
+		name := dists[i].dist
+		relver := dists[i].relver
+		log.Printf(`releasing dist "%s-%s" with %s %s`, name, relver, *gobin, buildinfo)
+		dists[i].release()
 	}
 	for i := range dists {
 		if dists[i].sum == nil {
@@ -205,6 +224,12 @@ func readasset(builddir string, goargs []string) []byte {
 		log.Fatal(err)
 	}
 	return output
+}
+
+func readassetpath(builddir string, prog string) string {
+	goargs := []string{"run", prog}
+	output := string(readasset(builddir, goargs))
+	return strings.TrimSpace(output)
 }
 
 func build(tool, builddir, goos, arch, ldflags string) {
@@ -296,6 +321,13 @@ func (d *dist) archive(goos, arch string) {
 	for _, a := range d.assets {
 		addFile(a.name, bytes.NewBuffer(a.contents), 0644, int64(len(a.contents)))
 	}
+	for _, a := range d.copyassets {
+		walkfunc := addassetdir(a, addFile)
+		err := filepath.Walk(a, walkfunc)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 	err = tw.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -379,9 +411,38 @@ func (d *dist) archiveZip(goos, arch string) {
 	for _, a := range d.assets {
 		addFile(a.name, bytes.NewBuffer(a.contents))
 	}
+	for _, a := range d.copyassets {
+		walkfunc := addassetdir(a, func(name string, r io.Reader, mode, size int64) {
+			addFile(name, r)
+		})
+		err := filepath.Walk(a, walkfunc)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 	err = zw.Close()
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+func addassetdir(dir string, addFile func(string, io.Reader, int64, int64)) filepath.WalkFunc {
+	basename := filepath.Base(dir)
+	return func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			return nil
+		}
+		fi, err := os.Open(path)
+		if err != nil {
+			return err
+		}
+		defer fi.Close()
+		name := filepath.Join(basename, path[len(dir):])
+		addFile(name, fi, int64(info.Mode()), info.Size())
+		return nil
 	}
 }
 
