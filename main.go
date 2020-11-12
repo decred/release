@@ -3,6 +3,7 @@ package main
 import (
 	"archive/tar"
 	"archive/zip"
+	"bufio"
 	"bytes"
 	"compress/gzip"
 	"crypto/sha256"
@@ -27,7 +28,7 @@ var (
 	nobuild   = flag.Bool("nobuild", false, "skip go build")
 	noarchive = flag.Bool("noarchive", false, "skip archiving")
 	target    = flag.String("target", "", "only build for os/arch")
-	onlydist  = flag.String("dist", "", "only release this distribution (one of: decred dexc)")
+	onlydist  = flag.String("dist", "", "only release this distribution (one of: decred dexc dcrinstall dcrinstall-manifests)")
 )
 
 type tuple struct{ os, arch string }
@@ -47,6 +48,7 @@ var targets = []tuple{
 type dist struct {
 	dist       string
 	relver     string
+	fake       func(*dist)
 	tools      []buildtool
 	assets     []buildasset
 	copyassets []string
@@ -144,6 +146,20 @@ var dists = []dist{{
 	},
 	ldflags:   `-buildid= -X main.appBuild=release`,
 	plainbins: true,
+}, {
+	dist:   "dcrinstall-manifests",
+	relver: "v1.6.0-pre",
+	fake: (&dcrinstallManifest{
+		hosturl: "https://github.com/decred/decred-binaries/releases/download/",
+		dcrfiles: []string{
+			"v1.6.0-rc2/decred-v1.6.0-rc2-manifest.txt",
+			"v1.6.0-rc2/dexc-v0.1.2-pre-manifest.txt",
+			"v1.6.0-rc2/dcrinstall-v1.6.0-pre-manifest.txt",
+		},
+		thirdparty: []string{
+			"bitcoin-core-0.20.1-SHA256SUMS.asc",
+		},
+	}).fakedist,
 }}
 
 const tags = "safe,netgo"
@@ -176,6 +192,10 @@ func main() {
 }
 
 func (d *dist) release() {
+	if d.fake != nil {
+		d.fake(d)
+		return
+	}
 	for i, a := range d.assets {
 		d.assets[i].contents = readasset(a.builddir, a.goargs)
 	}
@@ -535,4 +555,78 @@ func (d *dist) writeManifest() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+type dcrinstallManifest struct {
+	*dist
+	hosturl    string
+	dcrfiles   []string
+	thirdparty []string
+}
+
+func (d *dcrinstallManifest) fakedist(dist *dist) {
+	d.dist = dist
+	outpath := fmt.Sprintf("dist/dcrinstall-%s-manifests.txt", d.relver)
+	out, err := os.Create(outpath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("dist: %v", outpath)
+	hash := sha256.New()
+	outhash := sha256.New()
+	w := io.MultiWriter(out, outhash)
+	for _, f := range d.dcrfiles {
+		name := path.Base(f)
+		sep := strings.IndexByte(name, '-')
+		dist := name[:sep]
+		relver := strings.TrimSuffix(name[sep+1:], "-manifest.txt")
+		localpath := fmt.Sprintf("dist/%s-%s/%[1]s-%[2]s-manifest.txt", dist, relver)
+		fi, err := os.Open(localpath)
+		if os.IsNotExist(err) {
+			log.Fatalf("dependency %s not satisified", localpath)
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		hash.Reset()
+		io.Copy(hash, fi)
+		fi.Close()
+		sum := hash.Sum(nil)
+		_, err = fmt.Fprintf(w, "%x  %s\n", sum, d.hosturl+f)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	for _, name := range d.thirdparty {
+		// Read one line from file to obtain URL. The rest of the
+		// file contents are the original sums which we hash.
+		localpath := filepath.Join("thirdparty", name)
+		fi, err := os.Open(localpath)
+		if os.IsNotExist(err) {
+			log.Fatalf("dependency %s not satisified", localpath)
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		buf := bufio.NewReader(fi)
+		u, err := buf.ReadString('\n')
+		if err != nil {
+			log.Fatal(err)
+		}
+		u = strings.TrimSpace(u)
+		hash.Reset()
+		io.Copy(hash, buf)
+		fi.Close()
+		sum := hash.Sum(nil)
+		_, err = fmt.Fprintf(w, "%x  %s\n", sum, u)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	err = out.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	d.sum = new([32]byte)
+	copy(d.sum[:], outhash.Sum(nil))
 }
