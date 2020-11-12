@@ -76,7 +76,7 @@ type manifest []manifestLine
 
 var dists = []dist{{
 	dist:   "decred",
-	relver: "v1.6.0-rc2",
+	relver: "v1.6.0-rc3",
 	tools: []buildtool{
 		{"decred.org/dcrctl", "./dcrctl"},
 		{"decred.org/dcrwallet", "./dcrwallet"},
@@ -116,18 +116,18 @@ var dists = []dist{{
 	},
 	ldflags: `-buildid= ` +
 		`-X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
-		`-X github.com/decred/dcrd/internal/version.PreRelease=rc2 ` +
+		`-X github.com/decred/dcrd/internal/version.PreRelease=rc3 ` +
 		`-X decred.org/dcrwallet/version.BuildMetadata=release ` +
-		`-X decred.org/dcrwallet/version.PreRelease=rc2 ` +
+		`-X decred.org/dcrwallet/version.PreRelease=rc3 ` +
 		`-X github.com/decred/dcrlnd/build.BuildMetadata=release ` +
-		`-X github.com/decred/dcrlnd/build.PreRelease=rc2 ` +
+		`-X github.com/decred/dcrlnd/build.PreRelease=rc3 ` +
 		`-X github.com/decred/politeia/util/version.BuildMetadata=release ` +
-		`-X github.com/decred/politeia/util/version.PreRelease=rc2 ` +
+		`-X github.com/decred/politeia/util/version.PreRelease=rc3 ` +
 		`-X main.BuildMetadata=release ` +
-		`-X main.PreRelease=rc2`,
+		`-X main.PreRelease=rc3`,
 }, {
 	dist:   "dexc",
-	relver: "v0.1.2-pre",
+	relver: "v0.1.2",
 	tools: []buildtool{
 		{"decred.org/dcrdex/client/cmd/dexc", "./dcrdex"},
 		{"decred.org/dcrdex/client/cmd/dexcctl", "./dcrdex"},
@@ -136,11 +136,11 @@ var dists = []dist{{
 		readassetpath("./dcrdex", "sitepath.go"),
 	},
 	ldflags: `-buildid= ` +
-		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=release ` +
-		`-X decred.org/dcrdex/client/cmd/dexc/version.appBuild=`,
+		`-X decred.org/dcrdex/client/cmd/dexc/version.appBuild=release ` +
+		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=`,
 }, {
 	dist:   "dcrinstall",
-	relver: "v1.6.0-pre",
+	relver: "v1.6.0-rc3",
 	tools: []buildtool{
 		{"github.com/decred/decred-release/cmd/dcrinstall", "./decred-release"},
 	},
@@ -148,13 +148,13 @@ var dists = []dist{{
 	plainbins: true,
 }, {
 	dist:   "dcrinstall-manifests",
-	relver: "v1.6.0-pre",
+	relver: "v1.6.0-rc3",
 	fake: (&dcrinstallManifest{
 		hosturl: "https://github.com/decred/decred-binaries/releases/download/",
 		dcrfiles: []string{
-			"v1.6.0-rc2/decred-v1.6.0-rc2-manifest.txt",
-			"v1.6.0-rc2/dexc-v0.1.2-pre-manifest.txt",
-			"v1.6.0-rc2/dcrinstall-v1.6.0-pre-manifest.txt",
+			"v1.6.0-rc3/decred-v1.6.0-rc3-manifest.txt",
+			"v1.6.0-rc3/dexc-v0.1.2-manifest.txt",
+			"v1.6.0-rc3/dcrinstall-v1.6.0-rc3-manifest.txt",
 		},
 		thirdparty: []string{
 			"bitcoin-core-0.20.1-SHA256SUMS.asc",

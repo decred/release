@@ -296,8 +296,8 @@ github.com/decred/go-socks v1.0.0 h1:gd5+vE9LmL+FYiN5cxAMtaAVb791mG8E/+Jo411M/BE
 github.com/decred/go-socks v1.0.0/go.mod h1:sDhHqkZH0X4JjSa02oYOGhcGHYp12FsY1jQ/meV8md0=
 github.com/decred/go-socks v1.1.0 h1:dnENcc0KIqQo3HSXdgboXAHgqsCIutkqq6ntQjYtm2U=
 github.com/decred/go-socks v1.1.0/go.mod h1:sDhHqkZH0X4JjSa02oYOGhcGHYp12FsY1jQ/meV8md0=
-github.com/decred/politeia v0.1.1-0.20201029173405-16e4b1dac328 h1:B5p5cmMDE6wOWDQgrI4JoXg4Z7O+SECQiImn4ow5So8=
-github.com/decred/politeia v0.1.1-0.20201029173405-16e4b1dac328/go.mod h1:Moa9dR9lBXULnaFr7rrIiq/GmQ3czzuA4ZV4gZy0Fmo=
+github.com/decred/politeia v0.1.1-0.20201102202626-850885bcc9dc h1:xyA9qrFXhGVw3wfHwKoad9zxXz/QNdu07bNW2M8hKoo=
+github.com/decred/politeia v0.1.1-0.20201102202626-850885bcc9dc/go.mod h1:Moa9dR9lBXULnaFr7rrIiq/GmQ3czzuA4ZV4gZy0Fmo=
 github.com/decred/slog v1.0.0 h1:Dl+W8O6/JH6n2xIFN2p3DNjCmjYwvrXsjlSJTQQ4MhE=
 github.com/decred/slog v1.0.0/go.mod h1:zR98rEZHSnbZ4WHZtO0iqmSZjDLKhkXfrPTZQKtAonQ=
 github.com/decred/slog v1.1.0 h1:uz5ZFfmaexj1rEDgZvzQ7wjGkoSPjw2LCh8K+K1VrW4=
