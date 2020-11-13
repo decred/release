@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net/url"
 	"os"
 	"os/exec"
 	"path"
@@ -144,23 +145,28 @@ var dists = []dist{{
 	tools: []buildtool{
 		{"github.com/decred/decred-release/cmd/dcrinstall", "./decred-release"},
 	},
-	ldflags:   `-buildid= -X main.appBuild=release`,
+	ldflags: `-buildid= ` +
+		`-X main.appBuild=release ` +
+		`-X main.dcrinstallManifestVersion=v1.6.0-rc3`,
 	plainbins: true,
 }, {
 	dist:   "dcrinstall-manifests",
 	relver: "v1.6.0-rc3",
 	fake: (&dcrinstallManifest{
-		hosturl: "https://github.com/decred/decred-binaries/releases/download/",
-		dcrfiles: []string{
-			"v1.6.0-rc3/decred-v1.6.0-rc3-manifest.txt",
-			"v1.6.0-rc3/dexc-v0.1.2-manifest.txt",
-			"v1.6.0-rc3/dcrinstall-v1.6.0-rc3-manifest.txt",
+		dcrurls: []string{
+			ghRelease("decred-binaries", "v1.6.0-rc3", "decred-v1.6.0-rc3-manifest.txt"),
+			ghRelease("decred-binaries", "v1.6.0-rc3", "dexc-v0.1.2-manifest.txt"),
+			ghRelease("decred-release", "v1.6.0-rc3", "dcrinstall-v1.6.0-rc3-manifest.txt"),
 		},
 		thirdparty: []string{
 			"bitcoin-core-0.20.1-SHA256SUMS.asc",
 		},
 	}).fakedist,
 }}
+
+func ghRelease(repo, relver, file string) string {
+	return "https://github.com/decred/" + repo + "/releases/download/" + relver + "/" + file
+}
 
 const tags = "safe,netgo"
 
@@ -559,8 +565,7 @@ func (d *dist) writeManifest() {
 
 type dcrinstallManifest struct {
 	*dist
-	hosturl    string
-	dcrfiles   []string
+	dcrurls    []string
 	thirdparty []string
 }
 
@@ -575,8 +580,12 @@ func (d *dcrinstallManifest) fakedist(dist *dist) {
 	hash := sha256.New()
 	outhash := sha256.New()
 	w := io.MultiWriter(out, outhash)
-	for _, f := range d.dcrfiles {
-		name := path.Base(f)
+	for _, u := range d.dcrurls {
+		uu, err := url.Parse(u)
+		if err != nil {
+			log.Fatal(err)
+		}
+		name := path.Base(uu.Path)
 		sep := strings.IndexByte(name, '-')
 		dist := name[:sep]
 		relver := strings.TrimSuffix(name[sep+1:], "-manifest.txt")
@@ -592,7 +601,7 @@ func (d *dcrinstallManifest) fakedist(dist *dist) {
 		io.Copy(hash, fi)
 		fi.Close()
 		sum := hash.Sum(nil)
-		_, err = fmt.Fprintf(w, "%x  %s\n", sum, d.hosturl+f)
+		_, err = fmt.Fprintf(w, "%x  %s\n", sum, u)
 		if err != nil {
 			log.Fatal(err)
 		}
