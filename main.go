@@ -369,20 +369,17 @@ func (d *dist) archive(goos, arch string) {
 	}
 	log.Printf("archive: %v", tarFile.Name()+".gz")
 	tw := tar.NewWriter(tarFile)
-	hdr := &tar.Header{
-		Name:     tarPath + "/",
-		Typeflag: tar.TypeDir,
-		Mode:     0755,
-		Format:   tar.FormatPAX,
-	}
-	err = tw.WriteHeader(hdr)
-	if err != nil {
-		log.Fatal(err)
-	}
 	addFile := func(name string, r io.Reader, mode, size int64) {
+		var ty byte = tar.TypeReg
+		const modedir = int64(os.ModeDir)
+		if mode&modedir == modedir {
+			ty = tar.TypeDir
+			mode &^= modedir
+			size = 0
+		}
 		hdr := &tar.Header{
-			Name:     strings.ReplaceAll(filepath.Join(tarPath, name), `\`, `/`),
-			Typeflag: tar.TypeReg,
+			Name:     strings.ReplaceAll(tarPath+"/"+name, `\`, `/`),
+			Typeflag: ty,
 			Mode:     mode,
 			Size:     size,
 			Format:   tar.FormatPAX,
@@ -391,11 +388,14 @@ func (d *dist) archive(goos, arch string) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		_, err = io.Copy(tw, r)
-		if err != nil {
-			log.Fatal(err)
+		if r != nil {
+			_, err = io.Copy(tw, r)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
+	addFile("", nil, int64(os.ModeDir|0755), 0) // add tarPath directory
 	for i := range d.tools {
 		exe := exeName(d.tools[i].tool, goos)
 		exePath := filepath.Join("bin", goos+"-"+arch, exe)
@@ -478,18 +478,21 @@ func (d *dist) archiveZip(goos, arch string) {
 	zw := zip.NewWriter(w)
 	addFile := func(name string, r io.Reader) {
 		h := &zip.FileHeader{
-			Name:   strings.ReplaceAll(filepath.Join(zipPath, name), `\`, `/`),
+			Name:   strings.ReplaceAll(zipPath+"/"+name, `\`, `/`),
 			Method: zip.Deflate,
 		}
 		f, err := zw.CreateHeader(h)
 		if err != nil {
 			log.Fatal(err)
 		}
-		_, err = io.Copy(f, r)
-		if err != nil {
-			log.Fatal(err)
+		if r != nil {
+			_, err = io.Copy(f, r)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
+	addFile("", nil) // create zipPath directory
 	for i := range d.tools {
 		exe := exeName(d.tools[i].tool, goos)
 		exePath := filepath.Join("bin", goos+"-"+arch, exe)
@@ -524,16 +527,21 @@ func addassetdir(dir string, addFile func(string, io.Reader, int64, int64)) file
 		if err != nil {
 			return err
 		}
-		if info.IsDir() {
-			return nil
+		var r io.Reader
+		if !info.IsDir() {
+			fi, err := os.Open(path)
+			if err != nil {
+				return err
+			}
+			defer fi.Close()
+			r = fi
 		}
-		fi, err := os.Open(path)
-		if err != nil {
-			return err
-		}
-		defer fi.Close()
 		name := filepath.Join(basename, path[len(dir):])
-		addFile(name, fi, int64(info.Mode()), info.Size())
+		if r == nil { // directory
+			name += "/"
+		}
+		log.Println(name)
+		addFile(name, r, int64(info.Mode()|0200), info.Size())
 		return nil
 	}
 }
