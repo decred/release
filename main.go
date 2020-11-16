@@ -540,7 +540,6 @@ func addassetdir(dir string, addFile func(string, io.Reader, int64, int64)) file
 		if r == nil { // directory
 			name += "/"
 		}
-		log.Println(name)
 		addFile(name, r, int64(info.Mode()|0200), info.Size())
 		return nil
 	}
