@@ -2,5 +2,6 @@
 archive
 bin
 dist
+fake-latest
 release
 */gocache

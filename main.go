@@ -583,6 +583,10 @@ func (d *dcrinstallManifest) fakedist(dist *dist) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fakeout, err := os.Create("fake-latest")
+	if err != nil {
+		log.Fatal(err)
+	}
 	log.Printf("dist: %v", outpath)
 	hash := sha256.New()
 	outhash := sha256.New()
@@ -612,6 +616,10 @@ func (d *dcrinstallManifest) fakedist(dist *dist) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		_, err = fmt.Fprintf(fakeout, "%x  %s\n", sum, "file://"+localpath)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 	for _, name := range d.thirdparty {
 		// Read one line from file to obtain URL. The rest of the
@@ -638,8 +646,16 @@ func (d *dcrinstallManifest) fakedist(dist *dist) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		_, err = fmt.Fprintf(fakeout, "%x  %s\n", sum, u)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 	err = out.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = fakeout.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
