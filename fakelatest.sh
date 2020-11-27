@@ -8,7 +8,5 @@ find thirdparty -type f | perl -MDigest::SHA -MFile::Basename -ne '\
 	chomp(my $url = <$f>);
 	local $/;
 	my $contents = <$f>;
-	my $outfile = "/tmp/" . basename($url);
-	open (my $out, ">", $outfile);
-	print $out $contents;
-	print Digest::SHA->new(256)->add($contents)->hexdigest, "  file://${outfile}\n"'
+	my $sum = Digest::SHA->new(256)->add($contents)->hexdigest;
+	print "$sum  $url\n";'
