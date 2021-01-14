@@ -1,8 +1,8 @@
 decred.org/cspp v0.2.0/go.mod h1:KVnB49sueBFCldRa/ivZCaWZbrPNEiXWwxHCf1jTYKI=
-decred.org/dcrdex v0.1.3 h1:kQ4/vKt9pfEQmyGouVOBiztc8PoUd2cmLXhCsMydcdk=
-decred.org/dcrdex v0.1.3/go.mod h1:l2opdJy0JSO8KJ4d2ZzZco4GmbV8lk0p6TeKuT1HCgg=
-decred.org/dcrdex-assets v0.1.3 h1:peDgIBVEoPDfDYshuChe/tZd3K0x4myQJnciRd+nYLI=
-decred.org/dcrdex-assets v0.1.3/go.mod h1:8TML4Z40BuIp+Eyx5yiGGmhflOQgcWDqQTAmZxftNZo=
+decred.org/dcrdex v0.1.4 h1:Sb2R+rBm4jS08X1g6VkXEtA/xxBDEg3CTpCLJ9MJr1c=
+decred.org/dcrdex v0.1.4/go.mod h1:l2opdJy0JSO8KJ4d2ZzZco4GmbV8lk0p6TeKuT1HCgg=
+decred.org/dcrdex-assets v0.1.4 h1:/a2F/bhh2o4rLDhjxGLmWLILDL0nvWY5ZWR241HvQJA=
+decred.org/dcrdex-assets v0.1.4/go.mod h1:8TML4Z40BuIp+Eyx5yiGGmhflOQgcWDqQTAmZxftNZo=
 github.com/aead/siphash v1.0.1/go.mod h1:Nywa3cDsYNNK3gaciGTWPwHt0wlpNV15vwmswBAUSII=
 github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 h1:w1UutsfOrms1J05zt7ISrnJIXKzwaspym5BTKGx93EI=
 github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412/go.mod h1:WPjqKcmVOxf0XSf3YxCJs6N6AOSrOx3obionmG7T0y0=
