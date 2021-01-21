@@ -77,7 +77,7 @@ type manifest []manifestLine
 
 var dists = []dist{{
 	dist:   "decred",
-	relver: "v1.6.0-rc5",
+	relver: "v1.6.0",
 	tools: []buildtool{
 		{"decred.org/dcrctl", "./dcrctl"},
 		{"decred.org/dcrwallet", "./dcrwallet"},
@@ -117,15 +117,15 @@ var dists = []dist{{
 	},
 	ldflags: `-buildid= ` +
 		`-X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
-		`-X github.com/decred/dcrd/internal/version.PreRelease=rc5 ` +
+		`-X github.com/decred/dcrd/internal/version.PreRelease= ` +
 		`-X decred.org/dcrwallet/version.BuildMetadata=release ` +
-		`-X decred.org/dcrwallet/version.PreRelease=rc5 ` +
+		`-X decred.org/dcrwallet/version.PreRelease= ` +
 		`-X github.com/decred/dcrlnd/build.BuildMetadata=release ` +
-		`-X github.com/decred/dcrlnd/build.PreRelease=rc5 ` +
+		`-X github.com/decred/dcrlnd/build.PreRelease= ` +
 		`-X github.com/decred/politeia/util/version.BuildMetadata=release ` +
-		`-X github.com/decred/politeia/util/version.PreRelease=rc5 ` +
+		`-X github.com/decred/politeia/util/version.PreRelease= ` +
 		`-X main.BuildMetadata=release ` +
-		`-X main.PreRelease=rc5`,
+		`-X main.PreRelease=`,
 }, {
 	dist:   "dexc",
 	relver: "v0.1.4",
@@ -141,22 +141,22 @@ var dists = []dist{{
 		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=`,
 }, {
 	dist:   "dcrinstall",
-	relver: "v1.6.0-rc5",
+	relver: "v1.6.0",
 	tools: []buildtool{
 		{"github.com/decred/decred-release/cmd/dcrinstall", "./decred-release"},
 	},
 	ldflags: `-buildid= ` +
 		`-X main.appBuild=release ` +
-		`-X main.dcrinstallManifestVersion=v1.6.0-rc5`,
+		`-X main.dcrinstallManifestVersion=v1.6.0`,
 	plainbins: true,
 }, {
 	dist:   "dcrinstall-manifests",
-	relver: "v1.6.0-rc5",
+	relver: "v1.6.0",
 	fake: (&dcrinstallManifest{
 		dcrurls: []string{
-			ghRelease("decred-binaries", "v1.6.0-rc5", "decred-v1.6.0-rc5-manifest.txt"),
-			ghRelease("decred-binaries", "v1.6.0-rc5", "dexc-v0.1.4-manifest.txt"),
-			ghRelease("decred-release", "v1.6.0-rc5", "dcrinstall-v1.6.0-rc5-manifest.txt"),
+			ghRelease("decred-binaries", "v1.6.0", "decred-v1.6.0-manifest.txt"),
+			ghRelease("decred-binaries", "v1.6.0", "dexc-v0.1.4-manifest.txt"),
+			ghRelease("decred-release", "v1.6.0", "dcrinstall-v1.6.0-manifest.txt"),
 		},
 		thirdparty: []string{
 			"bitcoin-core-0.20.1-SHA256SUMS.asc",

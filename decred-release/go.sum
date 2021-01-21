@@ -38,8 +38,8 @@ github.com/decred/dcrd/dcrutil/v3 v3.0.0/go.mod h1:iVsjcqVzLmYFGCZLet2H7Nq+7imV9
 github.com/decred/dcrd/wire v1.2.0/go.mod h1:/JKOsLInOJu6InN+/zH5AyCq3YDIOW/EqcffvU8fJHM=
 github.com/decred/dcrd/wire v1.4.0 h1:KmSo6eTQIvhXS0fLBQ/l7hG7QLcSJQKSwSyzSqJYDk0=
 github.com/decred/dcrd/wire v1.4.0/go.mod h1:WxC/0K+cCAnBh+SKsRjIX9YPgvrjhmE+6pZlel1G7Ro=
-github.com/decred/decred-release v1.6.0-rc4.0.20201201230232-80e496b15c88 h1:oE9Y62v5u/df81tSPonyNdDG/h9jGI28QYgqnGwQHLE=
-github.com/decred/decred-release v1.6.0-rc4.0.20201201230232-80e496b15c88/go.mod h1:FjFxeh2vZLjXa6gB8Ax5BAHI/K4fx7Of+NMB75+PNig=
+github.com/decred/decred-release v1.6.0 h1:qW4lvz4UUWs2w/eJv6knIUjr/Knrtojy5E+RfOFPcOk=
+github.com/decred/decred-release v1.6.0/go.mod h1:FjFxeh2vZLjXa6gB8Ax5BAHI/K4fx7Of+NMB75+PNig=
 github.com/dustin/go-humanize v1.0.0 h1:VSnTsYCnlFHaM2/igO1h6X3HA71jcobQuxemgkq4zYo=
 github.com/dustin/go-humanize v1.0.0/go.mod h1:HtrtbFcZ19U5GC7JDqmcUSB87Iq5E25KnS6fMYU6eOk=
 github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b h1:VKtxabqXZkF25pY9ekfRL6a582T4P37/31XEstQ5p58=
