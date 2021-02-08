@@ -577,6 +577,9 @@ type dcrinstallManifest struct {
 }
 
 func (d *dcrinstallManifest) fakedist(dist *dist) {
+	if *target != "" {
+		return
+	}
 	d.dist = dist
 	outpath := fmt.Sprintf("dist/dcrinstall-%s-manifests.txt", d.relver)
 	out, err := os.Create(outpath)
