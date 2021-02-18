@@ -36,6 +36,7 @@ type tuple struct{ os, arch string }
 
 var targets = []tuple{
 	{"darwin", "amd64"},
+	{"darwin", "arm64"},
 	{"freebsd", "amd64"},
 	{"linux", "386"},
 	{"linux", "amd64"},
