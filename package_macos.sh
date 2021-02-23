@@ -31,21 +31,22 @@ installscript() {
 	echo "$0 must be run from darwin" 2>&1
 	exit 1
 }
-[ $# = 2 ] || {
-	echo "usage: $0 version identity" 2>&1
+[ $# = 3 ] || {
+	echo "usage: $0 version identity arch" 2>&1
 	exit 2
 }
 
 VERSION=$1
 IDENTITY=$2
+ARCH=$3
 KEYCHAIN=${KEYCHAIN:-signer}
 DIST=dist/darwin
 SCRIPTS=darwin/scripts
-EXE=dcrinstall-darwin-amd64-${VERSION}
+EXE=dcrinstall-darwin-${ARCH}-${VERSION}
 BUILD=dist/dcrinstall-${VERSION}/${EXE}
 PREFIX=${PREFIX:-/usr/local}
 
-[ -x ${BUILD} ] || go run . -dist dcrinstall -target darwin/amd64
+[ -x ${BUILD} ] || go run . -dist dcrinstall -target darwin/${ARCH}
 [ -x ${BUILD} ] || {
 	echo "cannot package ${BUILD}: executable missing" 2>&1
 	exit 1
@@ -59,6 +60,7 @@ mkdir -p ${SCRIPTS}
 
 # prepare directory with package files
 install -m 0755 ${BUILD} ${DIST}/dcrinstall
+[ $ARCH = arm64 ] && codesign --remove-signature ${DIST}/dcrinstall
 codesign -s ${IDENTITY} --options runtime ${DIST}/dcrinstall
 installscript postinstall <<EOF
 #!/bin/sh
