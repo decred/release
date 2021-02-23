@@ -6,5 +6,6 @@
 package main
 
 import (
+	_ "github.com/decred/dcrlnd/cmd/dcrlncli"
 	_ "github.com/decred/dcrlnd/cmd/dcrlnd"
 )

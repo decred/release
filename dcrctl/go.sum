@@ -1,7 +1,7 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 decred.org/cspp v0.3.0/go.mod h1:UygjYilC94dER3BEU65Zzyoqy9ngJfWCD2rdJqvUs2A=
-decred.org/dcrctl v0.0.0-20210121200107-9498a08a60f1 h1:KZZ4MKl0QNAQ78rJdL1oL3ApQOPabBprRKXoQaAUdYI=
-decred.org/dcrctl v0.0.0-20210121200107-9498a08a60f1/go.mod h1:8WRj45Y1lI7AtcDgvEBJtJzO5YTkoX+pbfFNLB91DTs=
+decred.org/dcrctl v0.0.0-20210219202944-d2018663c320 h1:3lCT/1mlLv6jCXdVa9EIWqwfRpXgKgiEXqgeRFZX9vc=
+decred.org/dcrctl v0.0.0-20210219202944-d2018663c320/go.mod h1:8WRj45Y1lI7AtcDgvEBJtJzO5YTkoX+pbfFNLB91DTs=
 decred.org/dcrwallet v1.6.0 h1:AyyarDNewxOEXPB8CmXioD7Dk3x6omG1hVbE9Hil9CY=
 decred.org/dcrwallet v1.6.0/go.mod h1:deeiKo2RpnmPpGfmNR2fFupdq5D+fFubA8js29YjDDc=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
@@ -119,7 +119,6 @@ golang.org/x/sys v0.0.0-20190412213103-97732733099d/go.mod h1:h1NjWce9XRLGQEsW7w
 golang.org/x/sys v0.0.0-20190904154756-749cb33beabd/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20191005200804-aed5e4c7ecf9/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20191120155948-bd437916bb0e/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
-golang.org/x/sys v0.0.0-20200202164722-d101bd2416d5 h1:LfCXLvNmTYH9kEmVgqbnsWfruoXZIrh4YBgqVHtDvw0=
 golang.org/x/sys v0.0.0-20200202164722-d101bd2416d5/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20200323222414-85ca7c5b95cd/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20200519105757-fe76b779f299/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
