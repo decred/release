@@ -76,9 +76,14 @@ type manifestLine struct {
 
 type manifest []manifestLine
 
+const (
+	decredRelver = "v1.6.2"
+	dexcRelver   = "v0.1.5"
+)
+
 var dists = []dist{{
 	dist:   "decred",
-	relver: "v1.6.2",
+	relver: decredRelver,
 	tools: []buildtool{
 		{"decred.org/dcrctl", "./dcrctl"},
 		{"decred.org/dcrwallet", "./dcrwallet"},
@@ -129,7 +134,7 @@ var dists = []dist{{
 		`-X main.PreRelease=`,
 }, {
 	dist:   "dexc",
-	relver: "v0.1.5",
+	relver: dexcRelver,
 	tools: []buildtool{
 		{"decred.org/dcrdex/client/cmd/dexc", "./dcrdex"},
 		{"decred.org/dcrdex/client/cmd/dexcctl", "./dcrdex"},
@@ -142,22 +147,22 @@ var dists = []dist{{
 		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=`,
 }, {
 	dist:   "dcrinstall",
-	relver: "v1.6.2",
+	relver: decredRelver,
 	tools: []buildtool{
 		{"github.com/decred/decred-release/cmd/dcrinstall", "./decred-release"},
 	},
 	ldflags: `-buildid= ` +
 		`-X main.appBuild=release ` +
-		`-X main.dcrinstallManifestVersion=v1.6.2`,
+		`-X main.dcrinstallManifestVersion=` + decredRelver,
 	plainbins: true,
 }, {
 	dist:   "dcrinstall-manifests",
-	relver: "v1.6.2",
+	relver: decredRelver,
 	fake: (&dcrinstallManifest{
 		dcrurls: []string{
-			ghRelease("decred-binaries", "v1.6.2", "decred-v1.6.2-manifest.txt"),
-			ghRelease("decred-binaries", "v1.6.2", "dexc-v0.1.5-manifest.txt"),
-			ghRelease("decred-release", "v1.6.2", "dcrinstall-v1.6.2-manifest.txt"),
+			ghRelease("decred-binaries", decredRelver, "decred-"+decredRelver+"-manifest.txt"),
+			ghRelease("decred-binaries", decredRelver, "dexc-"+dexcRelver+"-manifest.txt"),
+			ghRelease("decred-release", decredRelver, "dcrinstall-"+decredRelver+"-manifest.txt"),
 		},
 		thirdparty: []string{
 			"bitcoin-core-0.20.1-SHA256SUMS.asc",
