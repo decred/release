@@ -77,8 +77,8 @@ type manifestLine struct {
 type manifest []manifestLine
 
 const (
-	decredRelver = "v1.6.2"
-	dexcRelver   = "v0.1.5"
+	decredRelver = "v1.6.3"
+	dexcRelver   = "v0.2.0"
 )
 
 var dists = []dist{{
@@ -92,6 +92,7 @@ var dists = []dist{{
 		{"github.com/decred/dcrd/cmd/promptsecret", "./dcrd"},
 		{"github.com/decred/dcrlnd/cmd/dcrlnd", "./dcrlnd"},
 		{"github.com/decred/dcrlnd/cmd/dcrlncli", "./dcrlnd"},
+		{"github.com/decred/politeia/politeiawww/cmd/politeiaverify", "./politeia"},
 		{"github.com/decred/politeia/politeiawww/cmd/politeiavoter", "./politeia"},
 	},
 	assets: []buildasset{

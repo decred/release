@@ -6,5 +6,6 @@
 package main
 
 import (
+	_ "github.com/decred/politeia/politeiawww/cmd/politeiaverify"
 	_ "github.com/decred/politeia/politeiawww/cmd/politeiavoter"
 )
