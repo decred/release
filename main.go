@@ -122,7 +122,7 @@ var dists = []dist{{
 			goargs:   []string{"run", "readasset.go", "sample-politeiavoter.conf"},
 		},
 	},
-	ldflags: `-buildid= ` +
+	ldflags: `-buildid= -s -w ` +
 		`-X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
 		`-X github.com/decred/dcrd/internal/version.PreRelease= ` +
 		`-X decred.org/dcrwallet/version.BuildMetadata=release ` +
@@ -143,7 +143,7 @@ var dists = []dist{{
 	copyassets: []string{
 		readassetpath("./dcrdex", "sitepath.go"),
 	},
-	ldflags: `-buildid= ` +
+	ldflags: `-buildid= -s -w ` +
 		`-X decred.org/dcrdex/client/cmd/dexc/version.appBuild=release ` +
 		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=`,
 }, {
@@ -152,7 +152,7 @@ var dists = []dist{{
 	tools: []buildtool{
 		{"github.com/decred/decred-release/cmd/dcrinstall", "./decred-release"},
 	},
-	ldflags: `-buildid= ` +
+	ldflags: `-buildid= -s -w ` +
 		`-X main.appBuild=release ` +
 		`-X main.dcrinstallManifestVersion=` + decredRelver,
 	plainbins: true,
