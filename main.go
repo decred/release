@@ -47,6 +47,15 @@ var targets = []tuple{
 	{"windows", "amd64"},
 }
 
+var pie = map[tuple]bool{
+	{"darwin", "amd64"}:  true,
+	{"darwin", "arm64"}:  true,
+	{"linux", "amd64"}:   true,
+	{"linux", "arm64"}:   true,
+	{"windows", "386"}:   true,
+	{"windows", "amd64"}: true,
+}
+
 type dist struct {
 	dist       string
 	relver     string
@@ -286,8 +295,12 @@ func readassetpath(builddir string, prog string) string {
 func build(tool, builddir, goos, arch, ldflags string) {
 	exe := exeName(tool, goos)
 	out := filepath.Join("..", "bin", goos+"-"+arch, exe)
+	buildmode := "-buildmode=exe"
+	if pie[tuple{goos, arch}] {
+		buildmode = "-buildmode=pie"
+	}
 	log.Printf("build: %s", out[3:]) // trim off leading "../"
-	gocmd(goos, arch, builddir, "build", "-trimpath", "-tags", tags, "-o", out, "-ldflags", ldflags, tool)
+	gocmd(goos, arch, builddir, "build", "-trimpath", "-tags", tags, "-o", out, "-ldflags", ldflags, buildmode, tool)
 }
 
 func gocmd(goos, arch, builddir string, args ...string) {
