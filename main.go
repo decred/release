@@ -42,6 +42,7 @@ var targets = []tuple{
 	{"linux", "amd64"},
 	{"linux", "arm"},
 	{"linux", "arm64"},
+	{"linux", "riscv64"},
 	{"openbsd", "amd64"},
 	{"windows", "386"},
 	{"windows", "amd64"},
