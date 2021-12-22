@@ -1,3 +1,4 @@
+//go:build require
 // +build require
 
 // This file exists to prevent go mod tidy from removing requires on tools.

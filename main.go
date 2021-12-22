@@ -444,7 +444,7 @@ func (d *dist) archive(goos, arch string) {
 	}()
 	w := io.MultiWriter(zf, hash)
 	zw := gzip.NewWriter(w)
-	_, err = tarFile.Seek(0, os.SEEK_SET)
+	_, err = tarFile.Seek(0, io.SeekStart)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -469,10 +469,10 @@ func (d *dist) archive(goos, arch string) {
 func (d *dist) archiveZip(goos, arch string) {
 	zipPath := fmt.Sprintf("%s-%s-%s-%s", d.dist, goos, arch, d.relver)
 	zipFile, err := os.Create(fmt.Sprintf("dist/%s-%s/%s.zip", d.dist, d.relver, zipPath))
-	defer zipFile.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer zipFile.Close()
 	hash := sha256.New()
 	w := io.MultiWriter(zipFile, hash)
 	defer func() {
