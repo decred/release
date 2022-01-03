@@ -78,8 +78,10 @@ type manifestLine struct {
 type manifest []manifestLine
 
 const (
-	decredRelver = "v1.6.3"
-	dexcRelver   = "v0.2.0"
+	decredRelver = "v1.7.0-rc1"
+	dexcRelver   = "v0.4.0-rc1"
+	ldVersion    = "1.7.0-rc1"
+	prerelease   = "rc1"
 )
 
 var dists = []dist{{
@@ -87,7 +89,7 @@ var dists = []dist{{
 	relver: decredRelver,
 	tools: []buildtool{
 		{"decred.org/dcrctl", "./dcrctl"},
-		{"decred.org/dcrwallet", "./dcrwallet"},
+		{"decred.org/dcrwallet/v2", "./dcrwallet"},
 		{"github.com/decred/dcrd", "./dcrd"},
 		{"github.com/decred/dcrd/cmd/gencerts", "./dcrd"},
 		{"github.com/decred/dcrd/cmd/promptsecret", "./dcrd"},
@@ -123,17 +125,16 @@ var dists = []dist{{
 			goargs:   []string{"run", "readasset.go", "sample-politeiavoter.conf"},
 		},
 	},
-	ldflags: `-buildid= -s -w ` +
-		`-X github.com/decred/dcrd/internal/version.BuildMetadata=release ` +
-		`-X github.com/decred/dcrd/internal/version.PreRelease= ` +
-		`-X decred.org/dcrwallet/version.BuildMetadata=release ` +
-		`-X decred.org/dcrwallet/version.PreRelease= ` +
-		`-X github.com/decred/dcrlnd/build.BuildMetadata=release ` +
-		`-X github.com/decred/dcrlnd/build.PreRelease= ` +
-		`-X github.com/decred/politeia/util/version.BuildMetadata=release ` +
-		`-X github.com/decred/politeia/util/version.PreRelease= ` +
-		`-X main.BuildMetadata=release ` +
-		`-X main.PreRelease=`,
+	ldflags: fmt.Sprintf(`-buildid= -s -w `+
+		`-X github.com/decred/dcrd/internal/version.Version=%[1]s+release `+
+		`-X decred.org/dcrwallet/v2/version.BuildMetadata=release `+
+		`-X decred.org/dcrwallet/v2/version.PreRelease=%[2]s `+
+		`-X github.com/decred/dcrlnd/build.BuildMetadata=release `+
+		`-X github.com/decred/dcrlnd/build.PreRelease=%[2]s `+
+		`-X github.com/decred/politeia/util/version.BuildMetadata=release `+
+		`-X github.com/decred/politeia/util/version.PreRelease=%[2]s `+
+		`-X main.BuildMetadata=release `+
+		`-X main.PreRelease=%[2]s`, ldVersion, prerelease),
 }, {
 	dist:   "dexc",
 	relver: dexcRelver,
@@ -146,7 +147,7 @@ var dists = []dist{{
 	},
 	ldflags: `-buildid= -s -w ` +
 		`-X decred.org/dcrdex/client/cmd/dexc/version.appBuild=release ` +
-		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=`,
+		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=` + prerelease,
 }, {
 	dist:   "dcrinstall",
 	relver: decredRelver,
@@ -167,7 +168,7 @@ var dists = []dist{{
 			ghRelease("decred-release", decredRelver, "dcrinstall-"+decredRelver+"-manifest.txt"),
 		},
 		thirdparty: []string{
-			"bitcoin-core-0.20.1-SHA256SUMS.asc",
+			"bitcoin-core-0.21.2-SHA256SUMS.asc",
 		},
 	}).fakedist,
 }}

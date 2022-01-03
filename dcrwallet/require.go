@@ -7,5 +7,5 @@
 package main
 
 import (
-	_ "decred.org/dcrwallet"
+	_ "decred.org/dcrwallet/v2"
 )
