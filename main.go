@@ -78,10 +78,10 @@ type manifestLine struct {
 type manifest []manifestLine
 
 const (
-	decredRelver = "v1.7.0-rc1"
-	dexcRelver   = "v0.4.0-rc1"
-	ldVersion    = "1.7.0-rc1"
-	prerelease   = "rc1"
+	decredRelver = "v1.7.0-rc2"
+	dexcRelver   = "v0.4.0-rc2"
+	ldVersion    = "1.7.0-rc2"
+	prerelease   = "rc2"
 )
 
 var dists = []dist{{
@@ -145,9 +145,12 @@ var dists = []dist{{
 	copyassets: []string{
 		readassetpath("./dcrdex", "sitepath.go"),
 	},
-	ldflags: `-buildid= -s -w ` +
-		`-X decred.org/dcrdex/client/cmd/dexc/version.appBuild=release ` +
-		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=` + prerelease,
+	ldflags: fmt.Sprintf(`-buildid= -s -w `+
+		`-X decred.org/dcrdex/client/cmd/dexc/version.appBuild=release `+
+		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=%[1]s `+
+		`-X main.appBuild=release `+
+		`-X main.appPreRelease=%[1]s`,
+		prerelease),
 }, {
 	dist:   "dcrinstall",
 	relver: decredRelver,
