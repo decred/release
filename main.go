@@ -78,10 +78,10 @@ type manifestLine struct {
 type manifest []manifestLine
 
 const (
-	decredRelver = "v1.7.0-rc3"
-	dexcRelver   = "v0.4.0-rc3"
-	ldVersion    = "1.7.0-rc3"
-	prerelease   = "rc3"
+	decredRelver = "v1.7.0"
+	dexcRelver   = "v0.4.0"
+	ldVersion    = "1.7.0"
+	prerelease   = ""
 )
 
 var dists = []dist{{
