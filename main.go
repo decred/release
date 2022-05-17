@@ -78,9 +78,9 @@ type manifestLine struct {
 type manifest []manifestLine
 
 const (
-	decredRelver = "v1.7.2"
+	decredRelver = "v1.7.3"
 	dexcRelver   = "v0.4.3"
-	ldVersion    = "1.7.2"
+	ldVersion    = "1.7.3"
 	prerelease   = ""
 )
 
