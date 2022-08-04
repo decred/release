@@ -2,7 +2,7 @@ module decred.org/release/dcrd
 
 go 1.17
 
-require github.com/decred/dcrd v1.2.1-0.20220504053122-db49746b9a11
+require github.com/decred/dcrd v1.2.1-0.20220803181120-5cbec7087f19
 
 require (
 	github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 // indirect
@@ -13,7 +13,7 @@ require (
 	github.com/decred/dcrd/bech32 v1.1.2 // indirect
 	github.com/decred/dcrd/blockchain/stake/v4 v4.0.0 // indirect
 	github.com/decred/dcrd/blockchain/standalone/v2 v2.1.0 // indirect
-	github.com/decred/dcrd/blockchain/v4 v4.0.1 // indirect
+	github.com/decred/dcrd/blockchain/v4 v4.0.2 // indirect
 	github.com/decred/dcrd/certgen v1.1.1 // indirect
 	github.com/decred/dcrd/chaincfg/chainhash v1.0.3 // indirect
 	github.com/decred/dcrd/chaincfg/v3 v3.1.1 // indirect

@@ -2,7 +2,7 @@ module decred.org/release/dcrwallet
 
 go 1.17
 
-require decred.org/dcrwallet/v2 v2.0.5
+require decred.org/dcrwallet/v2 v2.0.7
 
 require (
 	decred.org/cspp/v2 v2.0.0 // indirect
