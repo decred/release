@@ -3,7 +3,6 @@ package main
 import (
 	"archive/tar"
 	"archive/zip"
-	"bufio"
 	"bytes"
 	"compress/gzip"
 	"crypto/sha256"
@@ -49,16 +48,15 @@ var targets = []tuple{
 }
 
 type dist struct {
-	dist       string
-	relver     string
-	fake       func(*dist)
-	tools      []buildtool
-	assets     []buildasset
-	copyassets []string
-	ldflags    string
-	plainbins  bool
-	manifest   manifest
-	sum        *[32]byte
+	dist      string
+	relver    string
+	fake      func(*dist)
+	tools     []buildtool
+	assets    []buildasset
+	ldflags   string
+	plainbins bool
+	manifest  manifest
+	sum       *[32]byte
 }
 
 type buildtool struct{ tool, builddir string }
@@ -79,8 +77,9 @@ type manifest []manifestLine
 
 const (
 	decredRelver = "v1.7.4"
-	dexcRelver   = "v0.4.3"
+	dexcRelver   = "v0.5.3"
 	ldVersion    = "1.7.4"
+	dexcLdVer    = "0.5.3"
 	prerelease   = ""
 )
 
@@ -142,15 +141,8 @@ var dists = []dist{{
 		{"decred.org/dcrdex/client/cmd/dexc", "./dcrdex"},
 		{"decred.org/dcrdex/client/cmd/dexcctl", "./dcrdex"},
 	},
-	copyassets: []string{
-		readassetpath("./dcrdex", "sitepath.go"),
-	},
 	ldflags: fmt.Sprintf(`-buildid= -s -w `+
-		`-X decred.org/dcrdex/client/cmd/dexc/version.appBuild=release `+
-		`-X decred.org/dcrdex/client/cmd/dexc/version.appPreRelease=%[1]s `+
-		`-X main.appBuild=release `+
-		`-X main.appPreRelease=%[1]s`,
-		prerelease),
+		`-X main.Version=%s+release`, dexcLdVer),
 }, {
 	dist:   "dcrinstall",
 	relver: decredRelver,
@@ -169,9 +161,6 @@ var dists = []dist{{
 			ghRelease("decred-binaries", decredRelver, "decred-"+decredRelver+"-manifest.txt"),
 			ghRelease("decred-binaries", decredRelver, "dexc-"+dexcRelver+"-manifest.txt"),
 			ghRelease("decred-release", decredRelver, "dcrinstall-"+decredRelver+"-manifest.txt"),
-		},
-		thirdparty: []string{
-			"bitcoin-core-0.21.2-SHA256SUMS.asc",
 		},
 	}).fakedist,
 }}
@@ -280,12 +269,6 @@ func readasset(builddir string, goargs []string) []byte {
 		log.Fatal(err)
 	}
 	return output
-}
-
-func readassetpath(builddir string, prog string) string {
-	goargs := []string{"run", prog}
-	output := string(readasset(builddir, goargs))
-	return strings.TrimSpace(output)
 }
 
 func build(tool, builddir, goos, arch, ldflags string) {
@@ -425,13 +408,6 @@ func (d *dist) archive(goos, arch string) {
 	for _, a := range d.assets {
 		addFile(a.name, bytes.NewBuffer(a.contents), 0644, int64(len(a.contents)))
 	}
-	for _, a := range d.copyassets {
-		walkfunc := addassetdir(a, addFile)
-		err := filepath.Walk(a, walkfunc)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
 	err = tw.Close()
 	if err != nil {
 		log.Fatal(err)
@@ -518,42 +494,9 @@ func (d *dist) archiveZip(goos, arch string) {
 	for _, a := range d.assets {
 		addFile(a.name, bytes.NewBuffer(a.contents))
 	}
-	for _, a := range d.copyassets {
-		walkfunc := addassetdir(a, func(name string, r io.Reader, mode, size int64) {
-			addFile(name, r)
-		})
-		err := filepath.Walk(a, walkfunc)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
 	err = zw.Close()
 	if err != nil {
 		log.Fatal(err)
-	}
-}
-
-func addassetdir(dir string, addFile func(string, io.Reader, int64, int64)) filepath.WalkFunc {
-	basename := filepath.Base(dir)
-	return func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		var r io.Reader
-		if !info.IsDir() {
-			fi, err := os.Open(path)
-			if err != nil {
-				return err
-			}
-			defer fi.Close()
-			r = fi
-		}
-		name := filepath.Join(basename, path[len(dir):])
-		if r == nil { // directory
-			name += "/"
-		}
-		addFile(name, r, int64(info.Mode()|0200), info.Size())
-		return nil
 	}
 }
 
@@ -584,8 +527,7 @@ func (d *dist) writeManifest() {
 
 type dcrinstallManifest struct {
 	*dist
-	dcrurls    []string
-	thirdparty []string
+	dcrurls []string
 }
 
 func (d *dcrinstallManifest) fakedist(dist *dist) {
@@ -632,36 +574,6 @@ func (d *dcrinstallManifest) fakedist(dist *dist) {
 			log.Fatal(err)
 		}
 		_, err = fmt.Fprintf(fakeout, "%x  %s\n", sum, "file://"+localpath)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-	for _, name := range d.thirdparty {
-		// Read one line from file to obtain URL. The rest of the
-		// file contents are the original sums which we hash.
-		localpath := filepath.Join("thirdparty", name)
-		fi, err := os.Open(localpath)
-		if os.IsNotExist(err) {
-			log.Fatalf("dependency %s not satisified", localpath)
-		}
-		if err != nil {
-			log.Fatal(err)
-		}
-		buf := bufio.NewReader(fi)
-		u, err := buf.ReadString('\n')
-		if err != nil {
-			log.Fatal(err)
-		}
-		u = strings.TrimSpace(u)
-		hash.Reset()
-		io.Copy(hash, buf)
-		fi.Close()
-		sum := hash.Sum(nil)
-		_, err = fmt.Fprintf(w, "%x  %s\n", sum, u)
-		if err != nil {
-			log.Fatal(err)
-		}
-		_, err = fmt.Fprintf(fakeout, "%x  %s\n", sum, u)
 		if err != nil {
 			log.Fatal(err)
 		}
