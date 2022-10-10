@@ -2,7 +2,7 @@ module decred.org/release/dcrlnd
 
 go 1.17
 
-require github.com/decred/dcrlnd v0.3.6
+require github.com/decred/dcrlnd v0.3.7
 
 require (
 	decred.org/cspp/v2 v2.0.0 // indirect
