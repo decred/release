@@ -169,8 +169,13 @@ func ghRelease(repo, relver, file string) string {
 	return "https://github.com/decred/" + repo + "/releases/download/" + relver + "/" + file
 }
 
-const tags = "safe,netgo"
-const windowsTags = "safe"
+const defaultTags = "safe,netgo"
+
+var tags = map[string]string{
+	"darwin":  "safe",
+	"openbsd": "safe",
+	"windows": "safe",
+}
 
 func main() {
 	flag.Parse()
@@ -273,9 +278,9 @@ func readasset(builddir string, goargs []string) []byte {
 }
 
 func build(tool, builddir, goos, arch, ldflags string) {
-	tags := tags
-	if goos == "windows" {
-		tags = windowsTags
+	tags, ok := tags[goos]
+	if !ok {
+		tags = defaultTags
 	}
 	exe := exeName(tool, goos)
 	out := filepath.Join("..", "bin", goos+"-"+arch, exe)
