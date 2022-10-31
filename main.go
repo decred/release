@@ -170,6 +170,7 @@ func ghRelease(repo, relver, file string) string {
 }
 
 const tags = "safe,netgo"
+const windowsTags = "safe"
 
 func main() {
 	flag.Parse()
@@ -272,6 +273,10 @@ func readasset(builddir string, goargs []string) []byte {
 }
 
 func build(tool, builddir, goos, arch, ldflags string) {
+	tags := tags
+	if goos == "windows" {
+		tags = windowsTags
+	}
 	exe := exeName(tool, goos)
 	out := filepath.Join("..", "bin", goos+"-"+arch, exe)
 	log.Printf("build: %s", out[3:]) // trim off leading "../"
