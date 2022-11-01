@@ -77,9 +77,9 @@ type manifest []manifestLine
 
 const (
 	decredRelver = "v1.7.5"
-	dexcRelver   = "v0.5.4"
+	dexcRelver   = "v0.5.5"
 	ldVersion    = "1.7.5"
-	dexcLdVer    = "0.5.4"
+	dexcLdVer    = "0.5.5"
 	prerelease   = ""
 )
 
