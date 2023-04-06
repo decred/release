@@ -43,8 +43,10 @@ var targets = []tuple{
 	{"linux", "arm64"},
 	{"linux", "riscv64"},
 	{"openbsd", "amd64"},
+	{"openbsd", "arm64"},
 	{"windows", "386"},
 	{"windows", "amd64"},
+	{"windows", "arm64"},
 }
 
 type dist struct {
