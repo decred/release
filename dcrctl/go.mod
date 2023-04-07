@@ -2,10 +2,10 @@ module decred.org/release/dcrctl
 
 go 1.17
 
-require decred.org/dcrctl v0.0.0-20221010193145-ccafe1020b95
+require decred.org/dcrctl v0.0.0-20230407014559-4a2da1d50dde
 
 require (
-	decred.org/dcrwallet/v2 v2.0.7 // indirect
+	decred.org/dcrwallet/v2 v2.0.11 // indirect
 	github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 // indirect
 	github.com/dchest/siphash v1.2.2 // indirect
 	github.com/decred/base58 v1.0.3 // indirect
@@ -23,5 +23,5 @@ require (
 	github.com/decred/go-socks v1.1.0 // indirect
 	github.com/decred/slog v1.2.0 // indirect
 	github.com/jessevdk/go-flags v1.5.0 // indirect
-	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 // indirect
+	golang.org/x/sys v0.5.0 // indirect
 )

@@ -2,14 +2,14 @@ module decred.org/release/dcrd
 
 go 1.17
 
-require github.com/decred/dcrd v1.2.1-0.20221010183630-f886cda024a0
+require github.com/decred/dcrd v1.2.1-0.20230407142157-cd698cf4f586
 
 require (
 	github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dchest/siphash v1.2.2 // indirect
 	github.com/decred/base58 v1.0.3 // indirect
-	github.com/decred/dcrd/addrmgr/v2 v2.0.0 // indirect
+	github.com/decred/dcrd/addrmgr/v2 v2.0.1 // indirect
 	github.com/decred/dcrd/bech32 v1.1.2 // indirect
 	github.com/decred/dcrd/blockchain/stake/v4 v4.0.0 // indirect
 	github.com/decred/dcrd/blockchain/standalone/v2 v2.1.0 // indirect
@@ -29,7 +29,7 @@ require (
 	github.com/decred/dcrd/dcrutil/v4 v4.0.0 // indirect
 	github.com/decred/dcrd/gcs/v3 v3.0.0 // indirect
 	github.com/decred/dcrd/lru v1.1.1 // indirect
-	github.com/decred/dcrd/peer/v3 v3.0.0 // indirect
+	github.com/decred/dcrd/peer/v3 v3.0.1 // indirect
 	github.com/decred/dcrd/rpc/jsonrpc/types/v3 v3.0.0 // indirect
 	github.com/decred/dcrd/txscript/v4 v4.0.0 // indirect
 	github.com/decred/dcrd/wire v1.5.0 // indirect
@@ -42,5 +42,5 @@ require (
 	github.com/jrick/logrotate v1.0.0 // indirect
 	github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7 // indirect
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
-	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
+	golang.org/x/sys v0.5.0 // indirect
 )
