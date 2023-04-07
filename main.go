@@ -126,7 +126,7 @@ var dists = []dist{{
 			goargs:   []string{"run", "readasset.go", "sample-politeiavoter.conf"},
 		},
 	},
-	ldflags: fmt.Sprintf(`-s -w `+
+	ldflags: fmt.Sprintf(`-buildid= -s -w `+
 		`-X github.com/decred/dcrd/internal/version.Version=%[1]s+release `+
 		`-X decred.org/dcrwallet/v2/version.BuildMetadata=release `+
 		`-X decred.org/dcrwallet/v2/version.PreRelease=%[2]s `+
