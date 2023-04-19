@@ -149,7 +149,13 @@ var dists = []dist{{
 	dist:   "dexc",
 	relver: dexcRelver,
 	tools: []buildtool{
-		{"decred.org/dcrdex/client/cmd/dexc", "./dcrdex", nil},
+		{"decred.org/dcrdex/client/cmd/dexc", "./dcrdex", []flavor{
+			{"tray", "windows", func(tags, ldflags string) (string, string) {
+				tags += ",systray"
+				ldflags += " -H=windowsgui"
+				return tags, ldflags
+			}},
+		}},
 		{"decred.org/dcrdex/client/cmd/dexcctl", "./dcrdex", nil},
 	},
 	ldflags: fmt.Sprintf(`-buildid= -s -w `+
