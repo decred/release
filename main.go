@@ -60,7 +60,17 @@ type dist struct {
 	sum       *[32]byte
 }
 
-type buildtool struct{ tool, builddir string }
+type flavor struct {
+	flavor      string
+	os          string
+	flavorbuild func(tags, ldflags string) (string, string)
+}
+
+type buildtool struct {
+	tool     string
+	builddir string
+	flavors  []flavor
+}
 
 type buildasset struct {
 	builddir string
@@ -88,15 +98,15 @@ var dists = []dist{{
 	dist:   "decred",
 	relver: decredRelver,
 	tools: []buildtool{
-		{"decred.org/dcrctl", "./dcrctl"},
-		{"decred.org/dcrwallet/v2", "./dcrwallet"},
-		{"github.com/decred/dcrd", "./dcrd"},
-		{"github.com/decred/dcrd/cmd/gencerts", "./dcrd"},
-		{"github.com/decred/dcrd/cmd/promptsecret", "./dcrd"},
-		{"github.com/decred/dcrlnd/cmd/dcrlnd", "./dcrlnd"},
-		{"github.com/decred/dcrlnd/cmd/dcrlncli", "./dcrlnd"},
-		{"github.com/decred/politeia/politeiawww/cmd/politeiaverify", "./politeia"},
-		{"github.com/decred/politeia/politeiawww/cmd/politeiavoter", "./politeia"},
+		{"decred.org/dcrctl", "./dcrctl", nil},
+		{"decred.org/dcrwallet/v2", "./dcrwallet", nil},
+		{"github.com/decred/dcrd", "./dcrd", nil},
+		{"github.com/decred/dcrd/cmd/gencerts", "./dcrd", nil},
+		{"github.com/decred/dcrd/cmd/promptsecret", "./dcrd", nil},
+		{"github.com/decred/dcrlnd/cmd/dcrlnd", "./dcrlnd", nil},
+		{"github.com/decred/dcrlnd/cmd/dcrlncli", "./dcrlnd", nil},
+		{"github.com/decred/politeia/politeiawww/cmd/politeiaverify", "./politeia", nil},
+		{"github.com/decred/politeia/politeiawww/cmd/politeiavoter", "./politeia", nil},
 	},
 	assets: []buildasset{
 		{
@@ -139,8 +149,8 @@ var dists = []dist{{
 	dist:   "dexc",
 	relver: dexcRelver,
 	tools: []buildtool{
-		{"decred.org/dcrdex/client/cmd/dexc", "./dcrdex"},
-		{"decred.org/dcrdex/client/cmd/dexcctl", "./dcrdex"},
+		{"decred.org/dcrdex/client/cmd/dexc", "./dcrdex", nil},
+		{"decred.org/dcrdex/client/cmd/dexcctl", "./dcrdex", nil},
 	},
 	ldflags: fmt.Sprintf(`-buildid= -s -w `+
 		`-X main.Version=%s+release`, dexcLdVer),
@@ -148,7 +158,7 @@ var dists = []dist{{
 	dist:   "dcrinstall",
 	relver: decredRelver,
 	tools: []buildtool{
-		{"github.com/decred/decred-release/cmd/dcrinstall", "./decred-release"},
+		{"github.com/decred/decred-release/cmd/dcrinstall", "./decred-release", nil},
 	},
 	ldflags: `-buildid= -s -w ` +
 		`-X main.appBuild=release ` +
@@ -218,7 +228,14 @@ func (d *dist) release() {
 			if *nobuild {
 				break
 			}
-			build(tool.tool, tool.builddir, target.os, target.arch, d.ldflags)
+			build(tool.tool, tool.builddir, target.os, target.arch, d.ldflags, nil)
+			for _, f := range tool.flavors {
+				if f.os != "" && f.os != target.os {
+					continue
+				}
+				build(tool.tool, tool.builddir, target.os,
+					target.arch, d.ldflags, &f)
+			}
 		}
 		if *noarchive {
 			continue
@@ -259,8 +276,11 @@ func toolName(module string) string {
 	return tool
 }
 
-func exeName(module, goos string) string {
+func exeName(module, flavor, goos string) string {
 	exe := toolName(module)
+	if flavor != "" {
+		exe += "-" + flavor
+	}
 	if goos == "windows" {
 		exe += ".exe"
 	}
@@ -278,12 +298,17 @@ func readasset(builddir string, goargs []string) []byte {
 	return output
 }
 
-func build(tool, builddir, goos, arch, ldflags string) {
+func build(tool, builddir, goos, arch, ldflags string, f *flavor) {
 	tags, ok := tags[goos]
 	if !ok {
 		tags = defaultTags
 	}
-	exe := exeName(tool, goos)
+	var flavor string
+	if f != nil {
+		flavor = f.flavor
+		tags, ldflags = f.flavorbuild(tags, ldflags)
+	}
+	exe := exeName(tool, flavor, goos)
 	out := filepath.Join("..", "bin", goos+"-"+arch, exe)
 	log.Printf("build: %s", out[3:]) // trim off leading "../"
 	gocmd(goos, arch, builddir, "build", "-trimpath", "-tags", tags, "-o", out, "-ldflags", ldflags, tool)
@@ -401,10 +426,7 @@ func (d *dist) archive(goos, arch string) {
 			}
 		}
 	}
-	addFile("", nil, int64(os.ModeDir|0755), 0) // add tarPath directory
-	for i := range d.tools {
-		exe := exeName(d.tools[i].tool, goos)
-		exePath := filepath.Join("bin", goos+"-"+arch, exe)
+	addExe := func(name, exePath string, mode int64) {
 		info, err := os.Stat(exePath)
 		if err != nil {
 			log.Fatal(err)
@@ -413,8 +435,22 @@ func (d *dist) archive(goos, arch string) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		addFile(exe, file, 0755, info.Size())
+		addFile(name, file, mode, info.Size())
 		file.Close()
+	}
+	addFile("", nil, int64(os.ModeDir|0755), 0) // add tarPath directory
+	for i := range d.tools {
+		exe := exeName(d.tools[i].tool, "", goos)
+		exePath := filepath.Join("bin", goos+"-"+arch, exe)
+		addExe(exe, exePath, 0755)
+		for _, f := range d.tools[i].flavors {
+			if f.os != "" && f.os != goos {
+				continue
+			}
+			exe := exeName(d.tools[i].tool, f.flavor, goos)
+			exePath := filepath.Join("bin", goos+"-"+arch, exe)
+			addExe(exe, exePath, 0755)
+		}
 	}
 	for _, a := range d.assets {
 		addFile(a.name, bytes.NewBuffer(a.contents), 0644, int64(len(a.contents)))
@@ -491,16 +527,27 @@ func (d *dist) archiveZip(goos, arch string) {
 			}
 		}
 	}
-	addFile("", nil) // create zipPath directory
-	for i := range d.tools {
-		exe := exeName(d.tools[i].tool, goos)
-		exePath := filepath.Join("bin", goos+"-"+arch, exe)
-		exeFi, err := os.Open(exePath)
+	addExe := func(name, exePath string) {
+		file, err := os.Open(exePath)
 		if err != nil {
 			log.Fatal(err)
 		}
-		addFile(exe, exeFi)
-		exeFi.Close()
+		addFile(name, file)
+		file.Close()
+	}
+	addFile("", nil) // create zipPath directory
+	for i := range d.tools {
+		exe := exeName(d.tools[i].tool, "", goos)
+		exePath := filepath.Join("bin", goos+"-"+arch, exe)
+		addExe(exe, exePath)
+		for _, f := range d.tools[i].flavors {
+			if f.os != "" && f.os != goos {
+				continue
+			}
+			exe := exeName(d.tools[i].tool, f.flavor, goos)
+			exePath := filepath.Join("bin", goos+"-"+arch, exe)
+			addExe(exe, exePath)
+		}
 	}
 	for _, a := range d.assets {
 		addFile(a.name, bytes.NewBuffer(a.contents))
