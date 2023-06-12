@@ -2,7 +2,7 @@ module decred.org/release/dcrdex
 
 go 1.18
 
-require decred.org/dcrdex v0.6.0
+require decred.org/dcrdex v0.6.1
 
 require (
 	decred.org/cspp/v2 v2.0.0 // indirect

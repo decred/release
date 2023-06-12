@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	"decred.org/dcrwallet/v2/assets"
+	"decred.org/dcrwallet/v3/assets"
 )
 
 func main() {
