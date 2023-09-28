@@ -2,7 +2,7 @@ module decred.org/release/dcrd
 
 go 1.17
 
-require github.com/decred/dcrd v1.8.0
+require github.com/decred/dcrd v1.8.1-0.20230927151824-26b2ae523efc
 
 require (
 	github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 // indirect
@@ -30,7 +30,7 @@ require (
 	github.com/decred/dcrd/lru v1.1.2 // indirect
 	github.com/decred/dcrd/math/uint256 v1.0.1 // indirect
 	github.com/decred/dcrd/peer/v3 v3.0.2 // indirect
-	github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.0.0 // indirect
+	github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.1.0 // indirect
 	github.com/decred/dcrd/txscript/v4 v4.1.0 // indirect
 	github.com/decred/dcrd/wire v1.6.0 // indirect
 	github.com/decred/go-socks v1.1.0 // indirect

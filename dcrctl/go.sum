@@ -1,10 +1,10 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 decred.org/cspp/v2 v2.1.0/go.mod h1:9nO3bfvCheOPIFZw5f6sRQ42CjBFB5RKSaJ9Iq6G4MA=
-decred.org/dcrctl v0.0.0-20230609181910-794136feb4e2 h1:ZQwu/cxvxycdhc0scmnattd5LmfBXKRYjAIQSJ9rInM=
-decred.org/dcrctl v0.0.0-20230609181910-794136feb4e2/go.mod h1:anLo3g/8DZWif0TDZ6a0ZevH2fW67OAf71jhsVdnMMw=
-decred.org/dcrwallet/v3 v3.0.0 h1:EdI7D9U7fnvfoWexWvlhPNri+Ws9RdvjP0A5Sc38TWs=
-decred.org/dcrwallet/v3 v3.0.0/go.mod h1:a+R8BZIOKVpWVPat5VZoBWNh/cnIciwcRkPtrzfS/tw=
+decred.org/dcrctl v0.0.0-20230927184041-7e233c4d1b97 h1:T1ED3g0znMbSW4tyA/Ujj2F079RI2b4urF12ygL1ORM=
+decred.org/dcrctl v0.0.0-20230927184041-7e233c4d1b97/go.mod h1:T6RZmFU7yKfIKR9MQCeaKZbVympuuq2vTxgeduNVKJk=
+decred.org/dcrwallet/v3 v3.0.1 h1:+OLi+u/MvKc3Ubcnf19oyG/a5hJ/qp4OtezdiQZnLIs=
+decred.org/dcrwallet/v3 v3.0.1/go.mod h1:a+R8BZIOKVpWVPat5VZoBWNh/cnIciwcRkPtrzfS/tw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 h1:w1UutsfOrms1J05zt7ISrnJIXKzwaspym5BTKGx93EI=
 github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412/go.mod h1:WPjqKcmVOxf0XSf3YxCJs6N6AOSrOx3obionmG7T0y0=
@@ -63,8 +63,9 @@ github.com/decred/dcrd/dcrutil/v4 v4.0.1 h1:E+d2TNbpOj0f1L9RqkZkEm1QolFjajvkzxWC
 github.com/decred/dcrd/dcrutil/v4 v4.0.1/go.mod h1:7EXyHYj8FEqY+WzMuRkF0nh32ueLqhutZDoW4eQ+KRc=
 github.com/decred/dcrd/gcs/v4 v4.0.0/go.mod h1:9z+EBagzpEdAumwS09vf/hiGaR8XhNmsBgaVq6u7/NI=
 github.com/decred/dcrd/hdkeychain/v3 v3.1.1/go.mod h1:HaabrLc27lnny5/Ph9+6I3szp0op5MCb7smEwlzfD60=
-github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.0.0 h1:4YUKsWKrKlkhVMYGRB6G0XI6QfwUnwEH18eoEbM1/+M=
 github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.0.0/go.mod h1:dDHO7ivrPAhZjFD3LoOJN/kdq5gi0sxie6zCsWHAiUo=
+github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.1.0 h1:kQFK7FMTmMDX9amyhh8IR0vwwI8dH0KCBm42C64bWVs=
+github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.1.0/go.mod h1:dDHO7ivrPAhZjFD3LoOJN/kdq5gi0sxie6zCsWHAiUo=
 github.com/decred/dcrd/rpcclient/v8 v8.0.0/go.mod h1:gx4+DI5apuOEeLwPBJFlMoj3GFWq1I7/X8XCQmMTi8Q=
 github.com/decred/dcrd/txscript/v4 v4.0.0/go.mod h1:OJtxNc5RqwQyfrRnG2gG8uMeNPo8IAJp+TD1UKXkqk8=
 github.com/decred/dcrd/txscript/v4 v4.1.0 h1:uEdcibIOl6BuWj3AqmXZ9xIK/qbo6lHY9aNk29FtkrU=
