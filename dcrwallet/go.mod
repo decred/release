@@ -1,4 +1,4 @@
-module decred.org/release/dcrwallet
+module decred.org/release/v2/dcrwallet
 
 go 1.20
 

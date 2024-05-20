@@ -1,4 +1,4 @@
-module decred.org/release/dcrctl
+module decred.org/release/v2/dcrctl
 
 go 1.17
 

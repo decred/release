@@ -1,4 +1,4 @@
-module decred.org/release/decred-release
+module decred.org/release/v2/decred-release
 
 go 1.17
 

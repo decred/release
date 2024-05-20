@@ -1,4 +1,4 @@
-module decred.org/release/dcrlnd
+module decred.org/release/v2/dcrlnd
 
 go 1.20
 

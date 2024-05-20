@@ -1,4 +1,4 @@
-module decred.org/release/dcrd
+module decred.org/release/v2/dcrd
 
 go 1.19
 

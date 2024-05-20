@@ -1,4 +1,4 @@
-module decred.org/release/politeia
+module decred.org/release/v2/politeia
 
 go 1.17
 

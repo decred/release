@@ -1,4 +1,4 @@
-module decred.org/release/dcrdex
+module decred.org/release/v2/dcrdex
 
 go 1.18
 
