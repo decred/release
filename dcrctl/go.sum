@@ -1,10 +1,10 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 decred.org/cspp/v2 v2.2.0/go.mod h1:9nO3bfvCheOPIFZw5f6sRQ42CjBFB5RKSaJ9Iq6G4MA=
-decred.org/dcrctl v0.0.0-20240524222634-d9a1862ce846 h1:imhl1KzzcYEfnqdjhJRTPX+GP2CFTW3WYv+eIQVo8Lc=
-decred.org/dcrctl v0.0.0-20240524222634-d9a1862ce846/go.mod h1:HuajYXGbcmjWa/xrYLz/oQe7wYfjAd6sJ6oHSV3fRBg=
-decred.org/dcrwallet/v4 v4.1.0 h1:/Gyp6IQ1JKBPkqJqoeypjIbSkKE3gOqvtYfnxnBf+d0=
-decred.org/dcrwallet/v4 v4.1.0/go.mod h1:IzS8Q7ZAcLUEP4cWcL+zjpcp1XDfFuiz10wCLpb1d+4=
+decred.org/dcrctl v0.0.0-20240604210042-dbb3f49af4b1 h1:82m8OGazftgi/7kUM+NYwWTWSIc5c2hcAi2Lv0bqSVM=
+decred.org/dcrctl v0.0.0-20240604210042-dbb3f49af4b1/go.mod h1:jdGmnG+tu9xTDT9jGINgMHQsgG+iDgL2TQtJ5OLPmFs=
+decred.org/dcrwallet/v4 v4.1.1 h1:imwPBboytp1PH6V8q7/JLTHiKgj/Scq9a3I1WmnJv0Y=
+decred.org/dcrwallet/v4 v4.1.1/go.mod h1:WxerkRcUGVreJsAI0ptCBPUujPUmWncbdYbme8Kl5r0=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 h1:w1UutsfOrms1J05zt7ISrnJIXKzwaspym5BTKGx93EI=
 github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412/go.mod h1:WPjqKcmVOxf0XSf3YxCJs6N6AOSrOx3obionmG7T0y0=
@@ -56,7 +56,7 @@ github.com/decred/dcrd/dcrutil/v4 v4.0.2 h1:eIl3E6gGln54qE8nk5o5lLtjh2/9C2Rz63Op
 github.com/decred/dcrd/dcrutil/v4 v4.0.2/go.mod h1:iS3JB1ac3R3FgfpTF1kBD+SPNet8TmiW3Br+/Jc5MC8=
 github.com/decred/dcrd/gcs/v4 v4.1.0/go.mod h1:nPTbGM/I3Ihe5KFvUmxZEqQP/jDZQjQ63+WEi/f4lqU=
 github.com/decred/dcrd/hdkeychain/v3 v3.1.2/go.mod h1:FnNJmZ7jqUDeAo6/c/xkQi5cuxh3EWtJeMmW6/Z8lcc=
-github.com/decred/dcrd/mixing v0.2.0/go.mod h1:W3K7yJKmoI03G2U5Yw+HSRNe6lLBegi63ZR6fFLnM9c=
+github.com/decred/dcrd/mixing v0.3.0/go.mod h1:W3K7yJKmoI03G2U5Yw+HSRNe6lLBegi63ZR6fFLnM9c=
 github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.2.0/go.mod h1:dDHO7ivrPAhZjFD3LoOJN/kdq5gi0sxie6zCsWHAiUo=
 github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.3.0 h1:l0DnCcILTNrpy8APF3FLN312ChpkQaAuW30aC/RgBaw=
 github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.3.0/go.mod h1:j+kkRPXPJB5S9VFOsx8SQLcU7PTFkPKRc1aCHN4ENzA=

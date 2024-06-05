@@ -2,7 +2,7 @@ module decred.org/release/v2/dcrd
 
 go 1.19
 
-require github.com/decred/dcrd v1.9.1
+require github.com/decred/dcrd v1.9.2
 
 require (
 	decred.org/cspp/v2 v2.2.0 // indirect
@@ -31,8 +31,8 @@ require (
 	github.com/decred/dcrd/gcs/v4 v4.1.0 // indirect
 	github.com/decred/dcrd/lru v1.1.2 // indirect
 	github.com/decred/dcrd/math/uint256 v1.0.2 // indirect
-	github.com/decred/dcrd/mixing v0.2.0 // indirect
-	github.com/decred/dcrd/peer/v3 v3.1.0 // indirect
+	github.com/decred/dcrd/mixing v0.3.0 // indirect
+	github.com/decred/dcrd/peer/v3 v3.1.1 // indirect
 	github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.3.0 // indirect
 	github.com/decred/dcrd/txscript/v4 v4.1.1 // indirect
 	github.com/decred/dcrd/wire v1.7.0 // indirect
