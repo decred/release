@@ -7,6 +7,6 @@
 package main
 
 import (
-	_ "decred.org/dcrdex/client/cmd/dexc"
-	_ "decred.org/dcrdex/client/cmd/dexcctl"
+	_ "decred.org/dcrdex/client/cmd/bisonw"
+	_ "decred.org/dcrdex/client/cmd/bwctl"
 )

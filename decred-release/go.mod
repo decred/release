@@ -2,7 +2,7 @@ module decred.org/release/v2/decred-release
 
 go 1.17
 
-require github.com/decred/decred-release v1.7.6-0.20230330195000-b2c2506bce07
+require github.com/decred/decred-release v1.8.2-0.20240830144532-abac5176e504
 
 require (
 	github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 // indirect

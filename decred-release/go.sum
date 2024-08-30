@@ -27,8 +27,8 @@ github.com/decred/dcrd/txscript/v4 v4.0.0 h1:BwaBUCMCmg58MCYoBhxVjL8ZZKUIfoJuxu/
 github.com/decred/dcrd/txscript/v4 v4.0.0/go.mod h1:OJtxNc5RqwQyfrRnG2gG8uMeNPo8IAJp+TD1UKXkqk8=
 github.com/decred/dcrd/wire v1.5.0 h1:3SgcEzSjqAMQvOugP0a8iX7yQSpiVT1yNi9bc4iOXVg=
 github.com/decred/dcrd/wire v1.5.0/go.mod h1:fzAjVqw32LkbAZIt5mnrvBR751GTa3e0rRQdOIhPY3w=
-github.com/decred/decred-release v1.7.6-0.20230330195000-b2c2506bce07 h1:TshBn8PrAe95u3hRUqZ/zJgHVWfhR7r2I30QZmkxlVU=
-github.com/decred/decred-release v1.7.6-0.20230330195000-b2c2506bce07/go.mod h1:G9ZqYYVkvwu+HBogtwCbykl8H0oqhd6wNBwJ77tJauw=
+github.com/decred/decred-release v1.8.2-0.20240830144532-abac5176e504 h1:Jyaicst1wzWEPNiFWgRHgUK/grRwktt3lwSUQbcxsLc=
+github.com/decred/decred-release v1.8.2-0.20240830144532-abac5176e504/go.mod h1:G9ZqYYVkvwu+HBogtwCbykl8H0oqhd6wNBwJ77tJauw=
 github.com/decred/slog v1.2.0 h1:soHAxV52B54Di3WtKLfPum9OFfWqwtf/ygf9njdfnPM=
 github.com/decred/slog v1.2.0/go.mod h1:kVXlGnt6DHy2fV5OjSeuvCJ0OmlmTF6LFpEPMu/fOY0=
 github.com/dustin/go-humanize v1.0.0 h1:VSnTsYCnlFHaM2/igO1h6X3HA71jcobQuxemgkq4zYo=

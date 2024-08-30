@@ -2,7 +2,7 @@ module decred.org/release/v2/dcrd
 
 go 1.19
 
-require github.com/decred/dcrd v1.9.3
+require github.com/decred/dcrd v1.9.4
 
 require (
 	decred.org/cspp/v2 v2.2.0 // indirect
@@ -15,7 +15,7 @@ require (
 	github.com/decred/dcrd/bech32 v1.1.4 // indirect
 	github.com/decred/dcrd/blockchain/stake/v5 v5.0.1 // indirect
 	github.com/decred/dcrd/blockchain/standalone/v2 v2.2.1 // indirect
-	github.com/decred/dcrd/certgen v1.1.3 // indirect
+	github.com/decred/dcrd/certgen v1.2.0 // indirect
 	github.com/decred/dcrd/chaincfg/chainhash v1.0.4 // indirect
 	github.com/decred/dcrd/chaincfg/v3 v3.2.1 // indirect
 	github.com/decred/dcrd/connmgr/v3 v3.1.2 // indirect
@@ -33,7 +33,7 @@ require (
 	github.com/decred/dcrd/gcs/v4 v4.1.0 // indirect
 	github.com/decred/dcrd/lru v1.1.2 // indirect
 	github.com/decred/dcrd/math/uint256 v1.0.2 // indirect
-	github.com/decred/dcrd/mixing v0.4.0 // indirect
+	github.com/decred/dcrd/mixing v0.4.1 // indirect
 	github.com/decred/dcrd/peer/v3 v3.1.2 // indirect
 	github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.3.0 // indirect
 	github.com/decred/dcrd/txscript/v4 v4.1.1 // indirect
@@ -47,10 +47,11 @@ require (
 	github.com/jrick/logrotate v1.0.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7 // indirect
-	golang.org/x/crypto v0.24.0 // indirect
-	golang.org/x/net v0.25.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
-	golang.org/x/sys v0.21.0 // indirect
-	golang.org/x/term v0.21.0 // indirect
+	golang.org/x/crypto v0.26.0 // indirect
+	golang.org/x/net v0.28.0 // indirect
+	golang.org/x/sync v0.8.0 // indirect
+	golang.org/x/sys v0.23.0 // indirect
+	golang.org/x/term v0.23.0 // indirect
+	golang.org/x/text v0.17.0 // indirect
 	lukechampine.com/blake3 v1.3.0 // indirect
 )

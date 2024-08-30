@@ -28,7 +28,7 @@ var (
 	nobuild   = flag.Bool("nobuild", false, "skip go build")
 	noarchive = flag.Bool("noarchive", false, "skip archiving")
 	target    = flag.String("target", "", "only build for os/arch")
-	onlydist  = flag.String("dist", "", "only release this distribution (one of: decred dexc dcrinstall dcrinstall-manifests)")
+	onlydist  = flag.String("dist", "", "only release this distribution (one of: decred bisonwallet dcrinstall dcrinstall-manifests)")
 )
 
 type tuple struct{ os, arch string }
@@ -87,11 +87,11 @@ type manifestLine struct {
 type manifest []manifestLine
 
 const (
-	decredRelver = "v2.0.3"
-	dexcRelver   = "v0.6.3"
-	ldVersion    = "2.0.3"
-	dexcLdVer    = "0.6.3"
-	prerelease   = ""
+	decredRelver      = "v2.0.4"
+	bisonwalletRelver = "v1.0.0"
+	ldVersion         = "2.0.4"
+	bisonwalletLdVer  = "1.0.0"
+	prerelease        = ""
 )
 
 var dists = []dist{{
@@ -141,23 +141,24 @@ var dists = []dist{{
 		`-X decred.org/dcrwallet/v4/version.PreRelease=%[2]s `+
 		`-X github.com/decred/dcrlnd/build.BuildMetadata=release `+
 		`-X github.com/decred/dcrlnd/build.PreRelease=%[2]s `+
-		`-X github.com/decred/politeia/util/version.Version=1.4.0+release `+
+		`-X github.com/decred/politeia/util/version.Version=1.5.0+release `+
 		`-X main.Version=%[1]s+release`, ldVersion, prerelease),
 }, {
-	dist:   "dexc",
-	relver: dexcRelver,
+	dist:   "bisonwallet",
+	relver: bisonwalletRelver,
 	tools: []buildtool{
-		{"decred.org/dcrdex/client/cmd/dexc", "./dcrdex", []flavor{
+		{"decred.org/dcrdex/client/cmd/bisonw", "./dcrdex", []flavor{
 			{"tray", "windows", func(tags, ldflags string) (string, string) {
 				tags += ",systray"
 				ldflags += " -H=windowsgui"
 				return tags, ldflags
 			}},
 		}},
-		{"decred.org/dcrdex/client/cmd/dexcctl", "./dcrdex", nil},
+		{"decred.org/dcrdex/client/cmd/bwctl", "./dcrdex", nil},
 	},
 	ldflags: fmt.Sprintf(`-s -w `+
-		`-X main.Version=%s+release`, dexcLdVer),
+		`-X main.Version=%[1]s+release `+
+		`-X decred.org/dcrdex/client/app.Version=%[1]s+release`, bisonwalletLdVer),
 }, {
 	dist:   "dcrinstall",
 	relver: decredRelver,
@@ -174,7 +175,7 @@ var dists = []dist{{
 	fake: (&dcrinstallManifest{
 		dcrurls: []string{
 			ghRelease("decred-binaries", decredRelver, "decred-"+decredRelver+"-manifest.txt"),
-			ghRelease("decred-binaries", decredRelver, "dexc-"+dexcRelver+"-manifest.txt"),
+			ghRelease("decred-binaries", decredRelver, "bisonwallet-"+bisonwalletRelver+"-manifest.txt"),
 			ghRelease("decred-release", decredRelver, "dcrinstall-"+decredRelver+"-manifest.txt"),
 		},
 	}).fakedist,
