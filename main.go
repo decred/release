@@ -628,7 +628,9 @@ func (d *dcrinstallManifest) fakedist(dist *dist) {
 			log.Fatal(err)
 		}
 		hash.Reset()
-		io.Copy(hash, fi)
+		if _, err = io.Copy(hash, fi); err != nil {
+			log.Fatalf("copy failed: %v", err)
+		}
 		fi.Close()
 		sum := hash.Sum(nil)
 		_, err = fmt.Fprintf(w, "%x  %s\n", sum, u)

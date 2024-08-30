@@ -9,20 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [1.18, 1.19]
+        go: ["1.22", "1.23"]
     steps:
+      - name: Check out source
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Set up Go
-        uses: actions/setup-go@84cbf8094393cdc5fe1fe1671ff2647332956b1a #v3.2.1
+        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
         with:
           go-version: ${{ matrix.go }}
-      - name: Check out source
-        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b #v3.0.2
       - name: Install Linters
-        run: "curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.48.0"
+        run: "go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.60.1"
       - name: Build
         run: go build ./...
       - name: Lint
         run: |
-          golangci-lint run --disable-all --deadline=10m --enable=gofmt --enable=govet --enable=gosimple --enable=unconvert --enable=ineffassign
+          golangci-lint run
       - name: Test
         run: go test -v ./...
