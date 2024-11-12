@@ -2,10 +2,10 @@ module decred.org/release/v2/dcrd
 
 go 1.19
 
-require github.com/decred/dcrd v1.9.4
+require github.com/decred/dcrd v1.9.5
 
 require (
-	decred.org/cspp/v2 v2.2.0 // indirect
+	decred.org/cspp/v2 v2.3.0 // indirect
 	github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 // indirect
 	github.com/companyzero/sntrup4591761 v0.0.0-20220309191932-9e0f3af2f07a // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -21,7 +21,7 @@ require (
 	github.com/decred/dcrd/connmgr/v3 v3.1.2 // indirect
 	github.com/decred/dcrd/container/apbf v1.0.1 // indirect
 	github.com/decred/dcrd/container/lru v1.0.0 // indirect
-	github.com/decred/dcrd/crypto/blake256 v1.0.1 // indirect
+	github.com/decred/dcrd/crypto/blake256 v1.1.0 // indirect
 	github.com/decred/dcrd/crypto/rand v1.0.0 // indirect
 	github.com/decred/dcrd/crypto/ripemd160 v1.0.2 // indirect
 	github.com/decred/dcrd/database/v3 v3.0.2 // indirect
@@ -33,8 +33,8 @@ require (
 	github.com/decred/dcrd/gcs/v4 v4.1.0 // indirect
 	github.com/decred/dcrd/lru v1.1.2 // indirect
 	github.com/decred/dcrd/math/uint256 v1.0.2 // indirect
-	github.com/decred/dcrd/mixing v0.4.1 // indirect
-	github.com/decred/dcrd/peer/v3 v3.1.2 // indirect
+	github.com/decred/dcrd/mixing v0.4.2 // indirect
+	github.com/decred/dcrd/peer/v3 v3.1.3 // indirect
 	github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.3.0 // indirect
 	github.com/decred/dcrd/txscript/v4 v4.1.1 // indirect
 	github.com/decred/dcrd/wire v1.7.0 // indirect
