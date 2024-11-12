@@ -148,7 +148,7 @@ var dists = []dist{{
 	relver: bisonwalletRelver,
 	tools: []buildtool{
 		{"decred.org/dcrdex/client/cmd/bisonw", "./dcrdex", []flavor{
-			{"tray", "windows", func(tags, ldflags string) (string, string) {
+			{"", "windows", func(tags, ldflags string) (string, string) {
 				tags += ",systray"
 				ldflags += " -H=windowsgui"
 				return tags, ldflags
@@ -233,13 +233,19 @@ func (d *dist) release() {
 			if *nobuild {
 				break
 			}
-			build(tool.tool, tool.builddir, target.os, target.arch, d.ldflags, nil)
+			var flavorOverridesDefault bool
 			for _, f := range tool.flavors {
 				if f.os != "" && f.os != target.os {
 					continue
 				}
+				if f.flavor == "" {
+					flavorOverridesDefault = true
+				}
 				build(tool.tool, tool.builddir, target.os,
 					target.arch, d.ldflags, &f)
+			}
+			if len(tool.flavors) == 0 || !flavorOverridesDefault {
+				build(tool.tool, tool.builddir, target.os, target.arch, d.ldflags, nil)
 			}
 		}
 		if *noarchive {
