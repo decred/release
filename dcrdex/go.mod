@@ -2,7 +2,7 @@ module decred.org/release/v2/dcrdex
 
 go 1.21
 
-require decred.org/dcrdex v1.0.2
+require decred.org/dcrdex v1.0.2 // indirect
 
 require (
 	decred.org/cspp/v2 v2.3.0 // indirect
@@ -175,4 +175,9 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	lukechampine.com/blake3 v1.3.0 // indirect
 	rsc.io/tmplfunc v0.0.3 // indirect
+)
+
+tool (
+	decred.org/dcrdex/client/cmd/bisonw
+	decred.org/dcrdex/client/cmd/bwctl
 )

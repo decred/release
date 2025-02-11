@@ -2,7 +2,7 @@ module decred.org/release/v2/politeia
 
 go 1.17
 
-require github.com/decred/politeia v1.5.0
+require github.com/decred/politeia v1.5.0 // indirect
 
 require (
 	decred.org/dcrwallet v1.7.0 // indirect
@@ -46,4 +46,9 @@ require (
 	google.golang.org/genproto v0.0.0-20220422154200-b37d22cd5731 // indirect
 	google.golang.org/grpc v1.46.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
+)
+
+tool (
+	github.com/decred/politeia/politeiawww/cmd/politeiaverify
+	github.com/decred/politeia/politeiawww/cmd/politeiavoter
 )

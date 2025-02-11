@@ -2,7 +2,7 @@ module decred.org/release/v2/dcrlnd
 
 go 1.20
 
-require github.com/decred/dcrlnd v0.7.5
+require github.com/decred/dcrlnd v0.7.5 // indirect
 
 require (
 	decred.org/cspp/v2 v2.3.0 // indirect
@@ -166,4 +166,9 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	lukechampine.com/blake3 v1.3.0 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect
+)
+
+tool (
+	github.com/decred/dcrlnd/cmd/dcrlncli
+	github.com/decred/dcrlnd/cmd/dcrlnd
 )

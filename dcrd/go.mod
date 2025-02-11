@@ -2,7 +2,7 @@ module decred.org/release/v2/dcrd
 
 go 1.19
 
-require github.com/decred/dcrd v1.9.5
+require github.com/decred/dcrd v1.9.5 // indirect
 
 require (
 	decred.org/cspp/v2 v2.3.0 // indirect
@@ -54,4 +54,10 @@ require (
 	golang.org/x/term v0.23.0 // indirect
 	golang.org/x/text v0.17.0 // indirect
 	lukechampine.com/blake3 v1.3.0 // indirect
+)
+
+tool (
+	github.com/decred/dcrd
+	github.com/decred/dcrd/cmd/gencerts
+	github.com/decred/dcrd/cmd/promptsecret
 )

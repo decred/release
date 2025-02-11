@@ -2,7 +2,7 @@ module decred.org/release/v2/dcrwallet
 
 go 1.20
 
-require decred.org/dcrwallet/v4 v4.2.0
+require decred.org/dcrwallet/v4 v4.2.0 // indirect
 
 require (
 	decred.org/cspp/v2 v2.3.0 // indirect
@@ -56,3 +56,5 @@ require (
 	google.golang.org/protobuf v1.27.1 // indirect
 	lukechampine.com/blake3 v1.3.0 // indirect
 )
+
+tool decred.org/dcrwallet/v4
