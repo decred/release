@@ -46,6 +46,7 @@ var targets = []tuple{
 	{"openbsd", "arm64"},
 	{"windows", "386"},
 	{"windows", "amd64"},
+	{"windows", "arm64"},
 }
 
 type dist struct {
