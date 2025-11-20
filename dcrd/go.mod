@@ -1,6 +1,6 @@
 module decred.org/release/v2/dcrd
 
-go 1.19
+go 1.24.0
 
 require github.com/decred/dcrd v1.9.6 // indirect
 
@@ -47,12 +47,12 @@ require (
 	github.com/jrick/logrotate v1.0.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7 // indirect
-	golang.org/x/crypto v0.33.0 // indirect
-	golang.org/x/net v0.28.0 // indirect
-	golang.org/x/sync v0.11.0 // indirect
-	golang.org/x/sys v0.30.0 // indirect
-	golang.org/x/term v0.29.0 // indirect
-	golang.org/x/text v0.22.0 // indirect
+	golang.org/x/crypto v0.45.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/term v0.37.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	lukechampine.com/blake3 v1.3.0 // indirect
 )
 
