@@ -20,7 +20,7 @@ installscript() {
 VERSION=$1
 IDENTITY=$2
 ARCH=$4
-KEYCHAIN-PROFILE=$3
+KEYCHAINPROFILE=$3
 DIST=dist/darwin
 SCRIPTS=darwin/scripts
 EXE=dcrinstall-darwin-${ARCH}-${VERSION}
@@ -60,7 +60,7 @@ pkgbuild --identifier org.decred.dcrinstall \
 # submit notarization
 xcrun notarytool submit dist/dcrinstall-${VERSION}/${EXE}.pkg \
 		--wait \
-		--keychain-profile ${KEYCHAIN-PROFILE} 2>&1 
+		--keychain-profile ${KEYCHAINPROFILE} 2>&1 
 	
 # staple package with notarization ticket
 stapler staple dist/dcrinstall-${VERSION}/${EXE}.pkg
