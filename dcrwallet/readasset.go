@@ -1,5 +1,4 @@
 //go:build ignore
-// +build ignore
 
 package main
 
@@ -8,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"decred.org/dcrwallet/v4/assets"
+	"decred.org/dcrwallet/v5/assets"
 )
 
 func main() {

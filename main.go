@@ -88,10 +88,10 @@ type manifestLine struct {
 type manifest []manifestLine
 
 const (
-	decredRelver      = "v2.0.6"
-	bisonwalletRelver = "v1.0.3"
-	ldVersion         = "2.0.6"
-	bisonwalletLdVer  = "1.0.3"
+	decredRelver      = "v2.1.0"
+	bisonwalletRelver = "v1.0.4"
+	ldVersion         = "2.1.0"
+	bisonwalletLdVer  = "1.0.4"
 	prerelease        = ""
 )
 
@@ -100,7 +100,7 @@ var dists = []dist{{
 	relver: decredRelver,
 	tools: []buildtool{
 		{"decred.org/dcrctl", "./dcrctl", nil},
-		{"decred.org/dcrwallet/v4", "./dcrwallet", nil},
+		{"decred.org/dcrwallet/v5", "./dcrwallet", nil},
 		{"github.com/decred/dcrd", "./dcrd", nil},
 		{"github.com/decred/dcrd/cmd/gencerts", "./dcrd", nil},
 		{"github.com/decred/dcrd/cmd/promptsecret", "./dcrd", nil},
@@ -138,8 +138,8 @@ var dists = []dist{{
 	},
 	ldflags: fmt.Sprintf(`-s -w `+
 		`-X github.com/decred/dcrd/internal/version.Version=%[1]s+release `+
-		`-X decred.org/dcrwallet/v4/version.BuildMetadata=release `+
-		`-X decred.org/dcrwallet/v4/version.PreRelease=%[2]s `+
+		`-X decred.org/dcrwallet/v5/version.BuildMetadata=release `+
+		`-X decred.org/dcrwallet/v5/version.PreRelease=%[2]s `+
 		`-X github.com/decred/dcrlnd/build.BuildMetadata=release `+
 		`-X github.com/decred/dcrlnd/build.PreRelease=%[2]s `+
 		`-X github.com/decred/politeia/util/version.Version=1.5.0+release `+

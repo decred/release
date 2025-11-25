@@ -1,12 +1,12 @@
 module decred.org/release/v2/dcrdex
 
-go 1.22
+go 1.23
 
-require decred.org/dcrdex v1.0.3 // indirect
+require decred.org/dcrdex v1.0.4 // indirect
 
 require (
 	decred.org/cspp/v2 v2.4.0 // indirect
-	decred.org/dcrwallet/v4 v4.3.0 // indirect
+	decred.org/dcrwallet/v4 v4.3.1 // indirect
 	fyne.io/systray v1.10.1-0.20220621085403-9a2652634e93 // indirect
 	github.com/AndreasBriese/bbloom v0.0.0-20190825152654-46b345b51c96 // indirect
 	github.com/DataDog/zstd v1.5.2 // indirect
@@ -16,19 +16,19 @@ require (
 	github.com/aead/siphash v1.0.1 // indirect
 	github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/bits-and-blooms/bitset v1.10.0 // indirect
+	github.com/bits-and-blooms/bitset v1.13.0 // indirect
 	github.com/btcsuite/btcd v0.24.2-beta.rc1.0.20240625142744-cc26860b4026 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.3.4 // indirect
 	github.com/btcsuite/btcd/btcutil v1.1.5 // indirect
 	github.com/btcsuite/btcd/btcutil/psbt v1.1.8 // indirect
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.1.0 // indirect
 	github.com/btcsuite/btclog v0.0.0-20170628155309-84c8d2346e9f // indirect
-	github.com/btcsuite/btcwallet v0.16.10-0.20240815225602-6ecae9c12fde // indirect
-	github.com/btcsuite/btcwallet/wallet/txauthor v1.3.4 // indirect
-	github.com/btcsuite/btcwallet/wallet/txrules v1.2.1 // indirect
-	github.com/btcsuite/btcwallet/wallet/txsizes v1.2.4 // indirect
-	github.com/btcsuite/btcwallet/walletdb v1.4.2 // indirect
-	github.com/btcsuite/btcwallet/wtxmgr v1.5.3 // indirect
+	github.com/btcsuite/btcwallet v0.16.10 // indirect
+	github.com/btcsuite/btcwallet/wallet/txauthor v1.3.5 // indirect
+	github.com/btcsuite/btcwallet/wallet/txrules v1.2.2 // indirect
+	github.com/btcsuite/btcwallet/wallet/txsizes v1.2.5 // indirect
+	github.com/btcsuite/btcwallet/walletdb v1.4.4 // indirect
+	github.com/btcsuite/btcwallet/wtxmgr v1.5.4 // indirect
 	github.com/btcsuite/go-socks v0.0.0-20170105172521-4720035b7bfd // indirect
 	github.com/btcsuite/golangcrypto v0.0.0-20150304025918-53f62d9b43e8 // indirect
 	github.com/btcsuite/websocket v0.0.0-20150119174127-31079b680792 // indirect
@@ -103,7 +103,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.5-0.20220116011046-fa5810519dcb // indirect
-	github.com/google/uuid v1.3.0 // indirect
+	github.com/google/uuid v1.3.1 // indirect
 	github.com/gorilla/websocket v1.5.1 // indirect
 	github.com/holiman/billy v0.0.0-20240216141850-2abb0c79d3c4 // indirect
 	github.com/holiman/bloomfilter/v2 v2.0.3 // indirect
@@ -161,7 +161,7 @@ require (
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	github.com/tyler-smith/go-bip39 v1.1.0 // indirect
 	github.com/zquestz/grab v0.0.0-20190224022517-abcee96e61b1 // indirect
-	go.etcd.io/bbolt v1.3.9 // indirect
+	go.etcd.io/bbolt v1.3.11 // indirect
 	golang.org/x/crypto v0.33.0 // indirect
 	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa // indirect
 	golang.org/x/net v0.28.0 // indirect
