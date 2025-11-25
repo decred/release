@@ -1,24 +1,5 @@
 #!/bin/sh
 
-# submit a package to be notarized
-# returns: notarization uuid
-notary_submit() {
-	xcrun altool -f dist/dcrinstall-${VERSION}/${EXE}.pkg \
-		--notarize-app \
-		--primary-bundle-id org.decred.dcrinstall.pkg \
-		--asc-provider ${IDENTITY} \
-		-p @keychain:${KEYCHAIN} 2>&1 \
-	| perl -ne 'print if s/^RequestUUID = //'
-}
-
-# check notarization status after successful submission
-# arg 1: uuid
-# returns: altool output
-notary_status() {
-	local _uuid=$1
-	xcrun altool --notarization-info ${_uuid} -p @keychain:${KEYCHAIN} 2>&1
-}
-
 # write an install script read from stdin
 # arg 1: script name
 installscript() {
@@ -31,15 +12,15 @@ installscript() {
 	echo "$0 must be run from darwin" 2>&1
 	exit 1
 }
-[ $# = 3 ] || {
-	echo "usage: $0 version identity arch" 2>&1
+[ $# = 4 ] || {
+	echo "usage: $0 version identity keychain-profile arch" 2>&1
 	exit 2
 }
 
 VERSION=$1
 IDENTITY=$2
-ARCH=$3
-KEYCHAIN=${KEYCHAIN:-signer}
+ARCH=$4
+KEYCHAIN-PROFILE=$3
 DIST=dist/darwin
 SCRIPTS=darwin/scripts
 EXE=dcrinstall-darwin-${ARCH}-${VERSION}
@@ -77,35 +58,9 @@ pkgbuild --identifier org.decred.dcrinstall \
 	dist/dcrinstall-${VERSION}/${EXE}.pkg
 
 # submit notarization
-_uuid=$(notary_submit)
-
-# poll notarization status until no longer in-progress
-set +ex
-while :; do
-	sleep 60
-	_date=$(date)
-	_output=$(notary_status ${_uuid})
-	_status=$(echo "${_output}" | perl -ne 'print if s/^\s*Status: //')
-	echo "check at ${_date}: Status: ${_status}"
-	case ${_status} in
-	"in progress")
-		continue
-		;;
-	"success")
-		# move on to stapling
-		break
-		;;
-	"")
-		echo "warn: unknown status -- full output:\n${_output}" 2>&1
-		continue
-		;;
-	*)
-		echo "${_output}" 2>&1
-		exit 1
-		;;
-	esac
-done
-set -ex
-
+xcrun notarytool submit dist/dcrinstall-${VERSION}/${EXE}.pkg \
+		--wait \
+		--keychain-profile ${KEYCHAIN-PROFILE} 2>&1 
+	
 # staple package with notarization ticket
 stapler staple dist/dcrinstall-${VERSION}/${EXE}.pkg
