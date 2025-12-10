@@ -1,6 +1,6 @@
 module decred.org/release/v2/decred-release
 
-go 1.17
+go 1.24.0
 
 require github.com/decred/decred-release v1.8.2-0.20240830144532-abac5176e504 // indirect
 
@@ -19,8 +19,8 @@ require (
 	github.com/decred/dcrd/wire v1.5.0 // indirect
 	github.com/decred/slog v1.2.0 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
-	golang.org/x/crypto v0.0.0-20220817201139-bc19a97f63c8 // indirect
-	golang.org/x/sys v0.6.0 // indirect
+	golang.org/x/crypto v0.45.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 )
 
 tool github.com/decred/decred-release/cmd/dcrinstall
