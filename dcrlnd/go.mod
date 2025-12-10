@@ -2,11 +2,11 @@ module decred.org/release/v2/dcrlnd
 
 go 1.24.0
 
-require github.com/decred/dcrlnd v0.8.0 // indirect
+require github.com/decred/dcrlnd v0.8.1 // indirect
 
 require (
 	decred.org/cspp/v2 v2.4.0 // indirect
-	decred.org/dcrwallet/v4 v4.3.1 // indirect
+	decred.org/dcrwallet/v5 v5.0.2 // indirect
 	github.com/NebulousLabs/go-upnp v0.0.0-20181203152547-b32978b8ccbf // indirect
 	github.com/Yawning/aez v0.0.0-20211027044916-e49e68abd344 // indirect
 	github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 // indirect
@@ -25,6 +25,7 @@ require (
 	github.com/decred/base58 v1.0.6 // indirect
 	github.com/decred/dcrd v1.8.0 // indirect
 	github.com/decred/dcrd/addrmgr/v2 v2.0.4 // indirect
+	github.com/decred/dcrd/addrmgr/v3 v3.0.0 // indirect
 	github.com/decred/dcrd/bech32 v1.1.3 // indirect
 	github.com/decred/dcrd/blockchain/stake/v5 v5.0.2 // indirect
 	github.com/decred/dcrd/blockchain/standalone/v2 v2.2.2 // indirect
@@ -54,11 +55,13 @@ require (
 	github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.4.0 // indirect
 	github.com/decred/dcrd/rpcclient/v8 v8.1.0 // indirect
 	github.com/decred/dcrd/txscript/v4 v4.1.2 // indirect
-	github.com/decred/dcrd/wire v1.7.1 // indirect
+	github.com/decred/dcrd/wire v1.7.2 // indirect
 	github.com/decred/dcrtest/dcrdtest v1.0.1-0.20240514160637-ade8c37ad1db // indirect
 	github.com/decred/go-socks v1.1.0 // indirect
 	github.com/decred/lightning-onion/v4 v4.0.1 // indirect
 	github.com/decred/slog v1.2.0 // indirect
+	github.com/decred/vspd/client/v4 v4.0.2 // indirect
+	github.com/decred/vspd/types/v3 v3.0.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/fergusstrange/embedded-postgres v1.25.0 // indirect
 	github.com/go-errors/errors v1.4.2 // indirect

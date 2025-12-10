@@ -88,10 +88,10 @@ type manifestLine struct {
 type manifest []manifestLine
 
 const (
-	decredRelver      = "v2.1.1"
-	bisonwalletRelver = "v1.0.4"
-	ldVersion         = "2.1.1"
-	bisonwalletLdVer  = "1.0.4"
+	decredRelver      = "v2.1.2"
+	bisonwalletRelver = "v1.0.5"
+	ldVersion         = "2.1.2"
+	bisonwalletLdVer  = "1.0.5"
 	prerelease        = ""
 )
 
