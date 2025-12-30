@@ -1,5 +1,5 @@
-decred.org/dcrctl v0.0.0-20251210001050-aeeb59bdd913 h1:8Jd/J1muRKDHG01+TTcYEy2nOqBol5UBG7omOTEGwXM=
-decred.org/dcrctl v0.0.0-20251210001050-aeeb59bdd913/go.mod h1:i5xFZ8GvVfpr7m7/JZnufrxmypuuXSNNQ6M6hHz9/s4=
+decred.org/dcrctl v0.0.0-20251230152222-481a9097fb78 h1:2YYFBhe1EUdRo1tWs5n6nyENLdyXiEJs17jsd9IWjdo=
+decred.org/dcrctl v0.0.0-20251230152222-481a9097fb78/go.mod h1:i5xFZ8GvVfpr7m7/JZnufrxmypuuXSNNQ6M6hHz9/s4=
 decred.org/dcrwallet/v5 v5.0.0 h1:94ZhmXx9FQpGHUMkum+XIFGexmVtA0INN2I3eb2AnaQ=
 decred.org/dcrwallet/v5 v5.0.0/go.mod h1:SIFVCQX7qSGccZRG7sbm4NyA49WzXIXuXFll/NItSNo=
 github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 h1:w1UutsfOrms1J05zt7ISrnJIXKzwaspym5BTKGx93EI=
