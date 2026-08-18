@@ -1,8 +1,8 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 decred.org/cspp/v2 v2.4.0 h1:whb0YW+UELHJS/UfT5MBXSJXrKUVw5omhgKNhjzYix4=
 decred.org/cspp/v2 v2.4.0/go.mod h1:9nO3bfvCheOPIFZw5f6sRQ42CjBFB5RKSaJ9Iq6G4MA=
-decred.org/dcrwallet/v5 v5.1.0 h1:bgd2D/X6OY/+oJoX6bE4rKAV/1JxKd8sETfdAMduO5c=
-decred.org/dcrwallet/v5 v5.1.0/go.mod h1:ey7FaK4F6dmyHa3gmOC1XUShtI5jr5/zsYLdqyyVThc=
+decred.org/dcrwallet/v5 v5.1.1 h1:PwiDOB6jXcRvaQcncwZRgpvVr+KrFL/i/bZvfNP61es=
+decred.org/dcrwallet/v5 v5.1.1/go.mod h1:2YVN1Qs7MGv/3dAcjE1S7pg/ZOBMvyiOGdkXV5Cghyg=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412 h1:w1UutsfOrms1J05zt7ISrnJIXKzwaspym5BTKGx93EI=
 github.com/agl/ed25519 v0.0.0-20170116200512-5312a6153412/go.mod h1:WPjqKcmVOxf0XSf3YxCJs6N6AOSrOx3obionmG7T0y0=
@@ -56,8 +56,8 @@ github.com/decred/dcrd/gcs/v4 v4.1.1 h1:3ELoII8uwIxXFGq6ETB29AjW7Lmr3McQOYsSD3dv
 github.com/decred/dcrd/gcs/v4 v4.1.1/go.mod h1:5q1EnYp1CzJw057/XfRB6UGkos24fpu2r2ZLuwE7YdE=
 github.com/decred/dcrd/hdkeychain/v3 v3.1.3 h1:Kn2wfj5cOR6pQO/WrYOMT1KK12IgWFEeQwnk1o81WsU=
 github.com/decred/dcrd/hdkeychain/v3 v3.1.3/go.mod h1:mDAuGaH6InRD+hKVeVJsjLD/ih1mD3aCKURNHS8Tq2s=
-github.com/decred/dcrd/mixing v0.7.3 h1:zrMPKvR3GP2stDiqT9tiv0e8GGnFpgl1EClNRew7FFk=
-github.com/decred/dcrd/mixing v0.7.3/go.mod h1:riSgG1GpWXl8LVuBvo8WXuFgcBj01ZGpTAxT/4PrtU0=
+github.com/decred/dcrd/mixing v0.7.4 h1:jfFVqx5OQXP7DYUB+9bxYbKRWlWCg5nqYP1HlKJ19sg=
+github.com/decred/dcrd/mixing v0.7.4/go.mod h1:v8bSiELRzTlKNxRgukVscuLV3TLLf6y4d5bp7pV0D0c=
 github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.4.0 h1:BBVaYemabsFsaqNVlCmacoZlSsLDqwHYIs8ty6fg59Q=
 github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.4.0/go.mod h1:w4C6hZ7ywpc8/YNkiPAknCaqKofF68cRhUiTglEIc7s=
 github.com/decred/dcrd/txscript/v4 v4.1.2 h1:1EP7ZmBDl2LBeAMTEygxY8rVNN3+lkGqrsb4u64x+II=
