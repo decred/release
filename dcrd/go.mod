@@ -2,7 +2,7 @@ module decred.org/release/v2/dcrd
 
 go 1.24.0
 
-require github.com/decred/dcrd v1.10.8 // indirect
+require github.com/decred/dcrd v1.10.9 // indirect
 
 require (
 	decred.org/cspp/v2 v2.4.0 // indirect
@@ -13,7 +13,7 @@ require (
 	github.com/decred/base58 v1.0.6 // indirect
 	github.com/decred/dcrd/addrmgr/v3 v3.0.0 // indirect
 	github.com/decred/dcrd/bech32 v1.1.4 // indirect
-	github.com/decred/dcrd/blockchain/stake/v5 v5.0.2 // indirect
+	github.com/decred/dcrd/blockchain/stake/v5 v5.0.3 // indirect
 	github.com/decred/dcrd/blockchain/standalone/v2 v2.3.0 // indirect
 	github.com/decred/dcrd/certgen v1.2.0 // indirect
 	github.com/decred/dcrd/chaincfg/chainhash v1.0.5 // indirect
@@ -32,11 +32,11 @@ require (
 	github.com/decred/dcrd/dcrutil/v4 v4.0.3 // indirect
 	github.com/decred/dcrd/gcs/v4 v4.1.1 // indirect
 	github.com/decred/dcrd/math/uint256 v1.0.2 // indirect
-	github.com/decred/dcrd/mixing v0.7.4 // indirect
+	github.com/decred/dcrd/mixing v0.7.5 // indirect
 	github.com/decred/dcrd/peer/v3 v3.2.0 // indirect
 	github.com/decred/dcrd/rpc/jsonrpc/types/v4 v4.4.0 // indirect
 	github.com/decred/dcrd/txscript/v4 v4.1.2 // indirect
-	github.com/decred/dcrd/wire v1.7.5 // indirect
+	github.com/decred/dcrd/wire v1.8.0 // indirect
 	github.com/decred/go-socks v1.1.0 // indirect
 	github.com/decred/slog v1.2.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
